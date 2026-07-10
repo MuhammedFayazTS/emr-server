@@ -71,6 +71,7 @@ export class AuthService {
       payload.tokenId
     );
 
+    // TODO: 
     const storedToken = user?.refreshTokens[0];
 
     if (!user || !storedToken) {
@@ -137,5 +138,22 @@ export class AuthService {
       accessToken,
       refreshToken: newRefreshToken,
     };
+  }
+
+  async logout(refreshToken: string) {
+    // Verify JWT
+    const payload = verifyJwtToken<RefreshTokenPayload>(
+      refreshToken,
+      {
+        secret: refreshTokenOptions.secret,
+      }
+    );
+
+    await this.userService.revokeRefreshToken(
+      payload.userId,
+      payload.tokenId
+    );
+
+    return
   }
 }

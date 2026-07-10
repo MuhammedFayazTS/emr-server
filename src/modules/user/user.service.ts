@@ -1,7 +1,7 @@
 import { hashValue } from "@/shared/utils/bcrypt";
 import { toUserResponseDto } from "./user.mapper";
 import UserRepository from "./user.repository";
-import { CreateDoctorDto, CreateReceptionistDto, CreateSuperAdminDto, UserResponseDto } from "./user.types";
+import { CreateDoctorDto, CreateReceptionistDto, CreateSuperAdminDto, UserDocument, UserResponseDto } from "./user.types";
 
 class UserService {
     private repository: UserRepository;
@@ -31,8 +31,14 @@ class UserService {
         return toUserResponseDto(user)
     }
 
-    async getUserById(id: string): Promise<UserResponseDto | null> {
+    async getUserDocumentById(id: string): Promise<UserDocument | null> {
         return await this.repository.findById(id);
+    }
+
+    async getUserById(id: string): Promise<UserResponseDto | null> {
+        const user = await this.getUserDocumentById(id);
+        if (!user) return null
+        return toUserResponseDto(user)
     }
 
     async getUserByEmailWithPass(email: string) {

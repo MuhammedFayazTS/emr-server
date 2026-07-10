@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { AuthService } from "@/modules/auth/auth.service";
 import ApiResponse from "@/shared/utils/api-response";
-import { setAuthenticationCookies } from "@/shared/utils/cookie";
+import { clearAuthenticationCookies, setAuthenticationCookies } from "@/shared/utils/cookie";
 import { asyncHandler } from "@/middleware/async-handler";
 import { loginSchema } from "./auth.validator";
 
@@ -55,6 +55,15 @@ export class AuthController {
                 res,
                 "Token refreshed successfully"
             );
+        }
+    );
+
+    public logout = asyncHandler(
+        async (req: Request, res: Response): Promise<any> => {
+            const refreshToken = req.cookies.refreshToken;
+            await this.authService.logout(refreshToken);
+            clearAuthenticationCookies(res)
+            return ApiResponse.ok(res, "User logout successfully");
         }
     );
 }
