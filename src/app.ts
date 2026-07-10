@@ -4,6 +4,7 @@ import config from "@/config/index"
 import ApiResponse from "./shared/utils/api-response";
 import apiRoutes from "./routes";
 import { errorHandler } from "@/middleware/error-handler";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(cors({
 app.use(express.json({ limit: "10mb" }))
 // url parsing
 app.use(express.urlencoded({ extended: true, limit: "10mb" }))
+app.use(cookieParser());
 
 // api routes
 app.use("/api/v1", apiRoutes);

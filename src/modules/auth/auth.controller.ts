@@ -37,4 +37,24 @@ export class AuthController {
             );
         }
     );
+
+    public refreshToken = asyncHandler(
+        async (req: Request, res: Response): Promise<any> => {
+            const refreshToken = req.cookies.refreshToken;
+
+            const { accessToken, refreshToken: newRefreshToken } =
+                await this.authService.refreshToken(refreshToken);
+
+            setAuthenticationCookies(
+                res,
+                accessToken,
+                newRefreshToken
+            );
+
+            return ApiResponse.ok(
+                res,
+                "Token refreshed successfully"
+            );
+        }
+    );
 }

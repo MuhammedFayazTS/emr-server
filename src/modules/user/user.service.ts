@@ -32,9 +32,7 @@ class UserService {
     }
 
     async getUserById(id: string): Promise<UserResponseDto | null> {
-        const user = await this.repository.findById(id);
-        if (!user) return null
-        return toUserResponseDto(user)
+        return await this.repository.findById(id);
     }
 
     async getUserByEmailWithPass(email: string) {
@@ -56,6 +54,44 @@ class UserService {
             expiresAt,
             userAgent
         );
+    }
+
+    async getUserWithRefreshToken(
+        userId: string,
+        tokenId: string
+    ) {
+        return this.repository.findUserWithRefreshToken(
+            userId,
+            tokenId
+        );
+    }
+
+    async rotateRefreshToken(
+        userId: string,
+        oldTokenId: string,
+        newTokenId: string,
+        refreshToken: string,
+        expiresAt: Date,
+        userAgent?: string
+    ) {
+        const tokenHash = await hashValue(refreshToken);
+        return this.repository.replaceRefreshToken(
+            userId,
+            oldTokenId,
+            {
+                tokenId: newTokenId,
+                tokenHash,
+                expiresAt,
+                userAgent,
+            }
+        );
+    }
+
+    async revokeRefreshToken(
+        userId: string,
+        tokenId: string
+    ) {
+        return this.repository.removeRefreshToken(userId, tokenId);
     }
 }
 

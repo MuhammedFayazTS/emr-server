@@ -7,8 +7,9 @@ export enum UserRole {
 }
 
 export interface IRefreshToken {
-    tokenHash?: string;
-    expiresAt?: Date;
+    tokenId:  string;
+    tokenHash: string;
+    expiresAt: Date;
     createdAt?: Date;
     userAgent?: string;
 }

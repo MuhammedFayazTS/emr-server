@@ -6,3 +6,5 @@ export const loginSchema = z.object({
     password: passwordSchema,
     userAgent: z.string().optional(),
 });
+
+// TODO: change password, forget password

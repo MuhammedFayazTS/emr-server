@@ -55,6 +55,70 @@ class UserRepository {
             }
         );
     }
+
+    async findUserWithRefreshToken(
+        userId: string,
+        tokenId: string
+    ) {
+        return User.findOne(
+            {
+                _id: userId,
+                "refreshTokens.tokenId": tokenId,
+            },
+            {
+                role: 1,
+                "refreshTokens.$": 1,
+            }
+        );
+    }
+
+    async replaceRefreshToken(
+        userId: string,
+        oldTokenId: string,
+        newToken: {
+            tokenId: string;
+            tokenHash: string;
+            expiresAt: Date;
+            userAgent?: string;
+        }
+    ) {
+        return User.findOneAndUpdate(
+            {
+                _id: userId,
+                "refreshTokens.tokenId": oldTokenId,
+            },
+            {
+                $set: {
+                    "refreshTokens.$": newToken,
+                },
+            },
+            {
+                new: true,
+            }
+        );
+    }
+
+    async removeRefreshToken(
+        userId: string,
+        tokenId: string
+    ) {
+        return User.findOneAndUpdate(
+            {
+                _id: userId,
+                "refreshTokens.tokenId": tokenId,
+            },
+            {
+                $pull: {
+                    refreshTokens: {
+                        tokenId,
+                    },
+                },
+            },
+            {
+                new: true,
+            }
+        );
+    }
 }
 
 export default UserRepository;
