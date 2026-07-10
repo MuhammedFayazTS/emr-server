@@ -3,6 +3,7 @@ import cors from "cors"
 import config from "@/config/index"
 import ApiResponse from "./shared/utils/api-response";
 import apiRoutes from "./routes";
+import { errorHandler } from "@/middleware/error-handler";
 
 const app = express();
 
@@ -24,5 +25,8 @@ app.use("/api/v1", apiRoutes);
 app.get("/", (_req, res) => {
     return ApiResponse.ok(res, "Server is running!");
 });
+
+// error handler middleware
+app.use(errorHandler);
 
 export default app;

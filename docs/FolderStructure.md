@@ -1,6 +1,6 @@
 # Folder Structure Documentation
 
-This project is built using a **Modular (Screaming) Architecture** in TypeScript. This structure organizes the code by domain features (modules) rather than technical layers, making the codebase highly scalable, maintainable, and self-documenting.
+This project is built using a **Modular Architecture** in TypeScript. This structure organizes the code by domain features (modules) rather than technical layers, making the codebase highly scalable, maintainable, and self-documenting.
 
 ---
 
@@ -14,6 +14,8 @@ server/
 │   ├── config/                  # Server configuration (DB connection, environment variables)
 │   │   ├── db.ts                # Database connection configuration using Mongoose
 │   │   └── index.ts             # Global configuration parameters
+│   ├── middleware/              # Express middlewares
+│   │   └── error-handler.ts     # Global centralized error handler
 │   ├── modules/                 # Self-contained business modules (by domain)
 │   │   └── auth/                # Authentication module
 │   │       ├── auth.controller.ts  # Parses requests, validates input, calls service
@@ -27,7 +29,8 @@ server/
 │   │   ├── constants/
 │   │   │   └── http-status-codes.ts # Centralized enum list of HTTP response codes
 │   │   ├── errors/
-│   │   │   └── app-error.ts     # Custom AppError class for clean error handling
+│   │   │   ├── AppError.ts      # Custom AppError base class for operational errors
+│   │   │   └── CommonExceptions.ts # Specific exception subclasses (e.g. BadRequestError)
 │   │   └── utils/
 │   │       └── api-response.ts  # ApiResponse helper class for consistent JSON formats
 │   ├── app.ts                   # Express app initializations (CORS, body parsing, routing)
@@ -67,3 +70,4 @@ To avoid messy relative imports (e.g., `../../shared/utils`), path aliases are c
 - `@utils/*` -> `/src/shared/utils/*`
 - `@constants/*` -> `/src/shared/constants/*`
 - `@errors/*` -> `/src/shared/errors/*`
+
