@@ -12,14 +12,13 @@
 
     "forceConsistentCasingInFileNames": true,
 
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@config/*": ["src/config/*"],
+      "@config/*": ["./src/config/*"],
       "@modules/*": ["./src/modules/*"],
-      "@utils/*": ["src/shared/utils/*"],
-      "@constants/*": ["src/shared/constants/*"],
-      "@errors/*": ["src/shared/errors/*"]
+      "@utils/*": ["./src/shared/utils/*"],
+      "@constants/*": ["./src/shared/constants/*"],
+      "@errors/*": ["./src/shared/errors/*"]
     }
   },
   "include": ["src"]

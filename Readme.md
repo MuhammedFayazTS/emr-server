@@ -71,3 +71,7 @@ The codebase follows a modular structure to enforce separation of concerns and m
   - `utils/`: Common utilities (e.g. the standard `ApiResponse` wrapper).
 
 For a detailed breakdown of the file structure, path aliases, and design choices, please refer to the [Folder Structure Documentation](file:///c:/WORK/machine%20tasks/emr/server/docs/FolderStructure.md).
+
+
+## API Documentaion
+[Online Link](https://documenter.getpostman.com/view/31012866/2sBY4LR2eb)

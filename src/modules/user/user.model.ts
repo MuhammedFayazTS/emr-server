@@ -13,16 +13,26 @@ export const baseOptions = {
 
 const refreshTokenSchema = new Schema(
     {
-        tokenHash: String,
-        expiresAt: Date,
+        tokenId: {
+            type: String,
+            required: true,
+        },
+        tokenHash: {
+            type: String,
+            required: true,
+        },
+        expiresAt: {
+            type: Date,
+            required: true,
+        },
         createdAt: {
             type: Date,
-            default: Date.now
+            default: Date.now,
         },
-        userAgent: String
+        userAgent: String,
     },
     {
-        _id: false
+        _id: false,
     }
 );
 
@@ -85,10 +95,10 @@ userSchema.methods.comparePassword = async function (this: any, password: string
 
 // ---- toJSON configuration ----
 userSchema.set("toJSON", {
-  transform(_doc, ret) {
-    const { password, refreshTokens, __v, ...safeObject } = ret;
-    return safeObject;
-  },
+    transform(_doc, ret) {
+        const { password, refreshTokens, __v, ...safeObject } = ret;
+        return safeObject;
+    },
 });
 
 export const User = (mongoose.models.User as UserModelType) || model<IUser, UserModelType>('User', userSchema);

@@ -1,11 +1,40 @@
 import { Request, Response } from "express";
 import { AuthService } from "@/modules/auth/auth.service";
 import ApiResponse from "@/shared/utils/api-response";
+import { setAuthenticationCookies } from "@/shared/utils/cookie";
+import { asyncHandler } from "@/middleware/async-handler";
+import { loginSchema } from "./auth.validator";
 
 export class AuthController {
-    constructor(private service: AuthService) { }
+    private authService: AuthService
+    constructor(authService: AuthService) {
+        this.authService = authService
+    }
 
-    register = async (_req: Request, res: Response) => {
-        return ApiResponse.created(res, "User registered successfully", this.service.register());
-    };
+    public login = asyncHandler(
+        async (req: Request, res: Response): Promise<any> => {
+            const userAgent = req.headers["user-agent"];
+            const body = loginSchema.parse({
+                ...req.body,
+                userAgent,
+            });
+
+            const { user, accessToken, refreshToken } =
+                await this.authService.login(body);
+
+            setAuthenticationCookies(
+                res,
+                accessToken,
+                refreshToken
+            );
+
+            return ApiResponse.ok(
+                res,
+                "User login successfully",
+                {
+                    user,
+                }
+            );
+        }
+    );
 }

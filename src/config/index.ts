@@ -2,17 +2,30 @@ import { config as dotEnvConfig } from "dotenv"
 
 dotEnvConfig()
 
+import { getEnv } from "@/shared/utils/get-env"
+
 const config = {
-    port: process.env.PORT || 5000,
+    port: getEnv("PORT", "5000"),
 
     cors: {
-        origin: process.env.CORS_ORIGIN || '*',
+        origin: getEnv("CORS_ORIGIN", "*"),
         credentials: true
     },
 
     mongodb: {
-        uri: process.env.MONGODB_CONNECT_URI,
+        uri: getEnv("MONGODB_CONNECT_URI"),
     },
+
+    jwt: {
+        secret: getEnv("JWT_SECRET"),
+        expiresIn: getEnv("JWT_EXPIRES_IN", "15m"),
+        refreshSecret: getEnv("JWT_REFRESH_SECRET"),
+        refreshExpiresIn: getEnv("JWT_REFRESH_EXPIRES_IN", "30d"),
+    },
+
+    basePath: getEnv("BASE_PATH", "/api/v1"),
+
+    nodeEnv: getEnv("NODE_ENV", "development")
 }
 
 export default config

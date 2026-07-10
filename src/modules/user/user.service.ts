@@ -1,3 +1,4 @@
+import { hashValue } from "@/shared/utils/bcrypt";
 import { toUserResponseDto } from "./user.mapper";
 import UserRepository from "./user.repository";
 import { CreateDoctorDto, CreateReceptionistDto, CreateSuperAdminDto, UserResponseDto } from "./user.types";
@@ -38,6 +39,23 @@ class UserService {
 
     async getUserByEmailWithPass(email: string) {
         return await this.repository.findByEmailWithPassword(email);
+    }
+
+    async saveRefreshToken(
+        userId: string,
+        tokenId: string,
+        refreshToken: string,
+        expiresAt: Date,
+        userAgent?: string
+    ) {
+        const tokenHash = await hashValue(refreshToken);
+        return this.repository.addRefreshToken(
+            userId,
+            tokenId,
+            tokenHash,
+            expiresAt,
+            userAgent
+        );
     }
 }
 
