@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { AuthService } from "@/modules/auth/auth.service";
-import ApiResponse from "@/utils/apiResponse";
+import ApiResponse from "@/shared/utils/api-response";
 
 export class AuthController {
     constructor(private service: AuthService) { }

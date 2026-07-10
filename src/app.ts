@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors"
 import config from "@/config/index"
-import ApiResponse from "./utils/apiResponse";
+import ApiResponse from "./shared/utils/api-response";
 import apiRoutes from "./routes";
 
 const app = express();
