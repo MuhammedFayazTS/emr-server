@@ -2,7 +2,7 @@ import { LoginDto } from "./auth.types";
 import { UserService } from "../user";
 import { NotFoundError } from "@/shared/errors/CommonExceptions";
 import { toUserResponseDto } from "../user/user.mapper";
-import { UnauthorizedException } from "@/shared/errors/AuthExceptions";
+import { UnauthorizedError } from "@/shared/errors/AuthExceptions";
 import { refreshTokenOptions, RefreshTokenPayload, signAccessToken, signRefreshToken, verifyJwtToken } from "@/shared/auth/jwt";
 import { calculateExpirationDate } from "@/shared/utils/date";
 import config from "@config/index";
@@ -24,8 +24,8 @@ class AuthService {
     const user = await this.userService.getUserByEmailWithPass(email)
     if (!user) throw new NotFoundError("User does not exist!");
     const isAuthenticated = await user.comparePassword(password)
-    if (!isAuthenticated) throw new UnauthorizedException("Invalid Credentials!");
-    if (!user.isActive) throw new UnauthorizedException("Account is Inactive!");
+    if (!isAuthenticated) throw new UnauthorizedError("Invalid Credentials!");
+    if (!user.isActive) throw new UnauthorizedError("Account is Inactive!");
 
     const userResponse = toUserResponseDto(user)
 
@@ -75,7 +75,7 @@ class AuthService {
     const storedToken = user?.refreshTokens[0];
 
     if (!user || !storedToken) {
-      throw new UnauthorizedException(
+      throw new UnauthorizedError(
         "Invalid refresh token"
       );
     }
@@ -88,7 +88,7 @@ class AuthService {
       );
 
     if (!isValid) {
-      throw new UnauthorizedException(
+      throw new UnauthorizedError(
         "Invalid refresh token"
       );
     }
@@ -100,7 +100,7 @@ class AuthService {
         payload.tokenId
       );
 
-      throw new UnauthorizedException(
+      throw new UnauthorizedError(
         "Refresh token expired"
       );
     }

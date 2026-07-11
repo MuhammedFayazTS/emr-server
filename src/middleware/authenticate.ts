@@ -7,7 +7,7 @@ import {
   accessTokenOptions,
   verifyJwtToken,
 } from "@/shared/auth/jwt";
-import { UnauthorizedException } from "@/shared/errors/AuthExceptions";
+import { UnauthorizedError } from "@/shared/errors/AuthExceptions";
 
 // Instantiate once when the module is loaded
 const userRepository = new UserRepository();
@@ -22,7 +22,7 @@ export const authenticate = async (
     const accessToken = req.cookies?.accessToken;
 
     if (!accessToken) {
-      throw new UnauthorizedException("Authentication required");
+      throw new UnauthorizedError("Authentication required");
     }
 
     const payload = verifyJwtToken<AccessTokenPayload>(accessToken, {
@@ -32,11 +32,11 @@ export const authenticate = async (
     const user = await userService.getUserDocumentById(payload.userId);
 
     if (!user) {
-      throw new UnauthorizedException("User not found");
+      throw new UnauthorizedError("User not found");
     }
 
     if (!user.isActive) {
-      throw new UnauthorizedException("Account is inactive");
+      throw new UnauthorizedError("Account is inactive");
     }
 
     req.user = user;

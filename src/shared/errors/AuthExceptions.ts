@@ -1,7 +1,7 @@
 import { HTTP_STATUS_CODES } from "../constants/http-status-codes";
 import { AppError } from "./AppError";
 
-export class UnauthorizedException extends AppError {
+export class UnauthorizedError extends AppError {
   constructor(message = "Unauthorized Access") {
     super(
       message,
@@ -10,7 +10,7 @@ export class UnauthorizedException extends AppError {
   }
 }
 
-export class ForbiddenException extends AppError {
+export class ForbiddenError extends AppError {
   constructor(message = "Forbidden") {
     super(
       message,

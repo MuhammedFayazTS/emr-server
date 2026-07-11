@@ -2,8 +2,8 @@ import { NextFunction, Request, Response } from "express";
 
 import permissionService from "@/shared/auth/permission.service";
 import { Permission } from "@constants/permissions";
-import { ForbiddenException } from "@/shared/errors/AuthExceptions";
-import { UnauthorizedException } from "@/shared/errors/AuthExceptions";
+import { ForbiddenError } from "@/shared/errors/AuthExceptions";
+import { UnauthorizedError } from "@/shared/errors/AuthExceptions";
 
 export const authorize =
     (...permissions: Permission[]) =>
@@ -12,7 +12,7 @@ export const authorize =
                 const user = req.user;
 
                 if (!user) {
-                    throw new UnauthorizedException("Authentication required");
+                    throw new UnauthorizedError("Authentication required");
                 }
 
                 const allowed = permissionService.hasAllPermissions(
@@ -21,7 +21,7 @@ export const authorize =
                 );
 
                 if (!allowed) {
-                    throw new ForbiddenException(
+                    throw new ForbiddenError(
                         "You do not have permission to perform this action."
                     );
                 }
