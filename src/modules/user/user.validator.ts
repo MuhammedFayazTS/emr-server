@@ -9,16 +9,6 @@ export const createUserSchema = z.object({
     // role: z.enum([UserRole.SUPER_ADMIN, UserRole.DOCTOR, UserRole.RECEPTIONIST]),
 });
 
-export const createDoctorSchema = createUserSchema.extend({
-    // role: z.literal(UserRole.DOCTOR),
-    department: objectIdSchema,
-    specialization: z.string().optional(),
-    qualification: z.string().optional(),
-    scheduleId: objectIdSchema.optional(),
-});
-
-export const updateDoctorSchema = createDoctorSchema.partial();
-
 export const createReceptionistSchema = createUserSchema.extend({
     // role: z.literal(UserRole.RECEPTIONIST),
     assignedDesk: z.string().optional(),

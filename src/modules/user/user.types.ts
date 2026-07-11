@@ -1,7 +1,7 @@
 import { Document, Types, Model } from "mongoose";
 import { SoftDeleteDocument, SoftDeleteModel } from "mongoose-delete";
 import z from "zod";
-import { createDoctorSchema, createReceptionistSchema, createSuperAdminSchema, updateDoctorSchema } from "./user.validator";
+import { createReceptionistSchema, createSuperAdminSchema } from "./user.validator";
 
 export enum UserRole {
     SUPER_ADMIN = "super_admin",
@@ -34,13 +34,6 @@ export interface IUserMethods {
     comparePassword(password: string): Promise<boolean>;
 }
 
-export interface IDoctor {
-    department: Types.ObjectId;
-    specialization?: string;
-    scheduleId?: Types.ObjectId;
-    qualification?: string;
-}
-
 export interface IReceptionist {
     assignedDesk?: string;
 }
@@ -53,8 +46,6 @@ export type UserModelType = SoftDeleteModel<UserDocument, {}, IUserMethods>;
 export type UserDocument = Document<Types.ObjectId, any, IUser> & IUser & IUserMethods & SoftDeleteDocument;
 
 // ---- Input DTO ----
-export type CreateDoctorDto = z.infer<typeof createDoctorSchema>;
-export type UpdateDoctorDto = z.infer<typeof updateDoctorSchema>;
 export type CreateReceptionistDto = z.infer<typeof createReceptionistSchema>;
 export type CreateSuperAdminDto = z.infer<typeof createSuperAdminSchema>;
 
@@ -69,6 +60,5 @@ export interface UserResponseDto {
     createdAt?: Date;
 }
 
-export type DoctorResponseDto = UserResponseDto & IDoctor;
 export type ReceptionistResponseDto = UserResponseDto & IReceptionist;
 export type SuperAdminResponseDto = UserResponseDto & ISuperAdmin;

@@ -1,8 +1,7 @@
 import { hashValue } from "@/shared/auth/bcrypt";
-import { toDoctorResponseDto, toUserResponseDto } from "./user.mapper";
+import { toUserResponseDto } from "./user.mapper";
 import UserRepository from "./user.repository";
-import { CreateDoctorDto, CreateReceptionistDto, CreateSuperAdminDto, DoctorResponseDto, UpdateDoctorDto, UserDocument, UserResponseDto, UserRole } from "./user.types";
-import { Types } from "mongoose";
+import { CreateReceptionistDto, CreateSuperAdminDto, UserDocument, UserResponseDto, UserRole } from "./user.types";
 import { NotFoundError } from "@/shared/errors/CommonExceptions";
 
 class UserService {
@@ -10,53 +9,6 @@ class UserService {
 
     constructor(repository: UserRepository) {
         this.repository = repository;
-    }
-
-    // doctor services
-
-    async createDoctor(data: CreateDoctorDto): Promise<UserResponseDto> {
-        const doctor = await this.repository.createDoctor({
-            ...data,
-            role: UserRole.DOCTOR,
-            department: new Types.ObjectId(data.department),
-            scheduleId: data.scheduleId ? new Types.ObjectId(data.scheduleId) : undefined,
-        });
-        return toDoctorResponseDto(doctor);
-    }
-
-    async updateDoctor(id: string, data: UpdateDoctorDto): Promise<UserResponseDto> {
-        const doctor = await this.repository.updateDoctor(id, {
-            ...data,
-            department: new Types.ObjectId(data.department),
-            scheduleId: data.scheduleId ? new Types.ObjectId(data.scheduleId) : undefined,
-        });
-        if (!doctor) throw new NotFoundError("Doctor not found")
-        return toDoctorResponseDto(doctor);
-    }
-
-    async getAllDoctors(query: {
-        limit?: number;
-        cursor?: string;
-        search?: string;
-        isActive?: boolean;
-    }) {
-        const result = await this.repository.findAllDoctors(query);
-        return {
-            data: result.data.map(toDoctorResponseDto),
-            pagination: result.pagination,
-        };
-    }
-
-    async getDoctorById(id: string): Promise<DoctorResponseDto> {
-        const doctor = await this.repository.findDoctorById(id);
-        if (!doctor) throw new NotFoundError("Doctor not found");
-        return toDoctorResponseDto(doctor);
-    }
-
-    async deleteDoctor(id: string): Promise<DoctorResponseDto> {
-        const doctor = await this.repository.deleteDoctor(id);
-        if (!doctor) throw new NotFoundError("Doctor not found");
-        return toDoctorResponseDto(doctor);
     }
 
     // receptionist services
