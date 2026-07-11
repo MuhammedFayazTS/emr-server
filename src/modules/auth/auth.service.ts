@@ -3,10 +3,10 @@ import { UserService } from "../user";
 import { NotFoundError } from "@/shared/errors/CommonExceptions";
 import { toUserResponseDto } from "../user/user.mapper";
 import { UnauthorizedException } from "@/shared/errors/AuthExceptions";
-import { refreshTokenOptions, RefreshTokenPayload, signAccessToken, signRefreshToken, verifyJwtToken } from "@/shared/utils/jwt";
+import { refreshTokenOptions, RefreshTokenPayload, signAccessToken, signRefreshToken, verifyJwtToken } from "@/shared/auth/jwt";
 import { calculateExpirationDate } from "@/shared/utils/date";
 import config from "@config/index";
-import { compareValue } from "@/shared/utils/bcrypt";
+import { compareValue } from "@/shared/auth/bcrypt";
 
 export class AuthService {
   private userService: UserService

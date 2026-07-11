@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { AuthService } from "@/modules/auth/auth.service";
 import ApiResponse from "@/shared/utils/api-response";
-import { clearAuthenticationCookies, setAuthenticationCookies } from "@/shared/utils/cookie";
+import { clearAuthenticationCookies, setAuthenticationCookies } from "@/shared/auth/cookie";
 import { asyncHandler } from "@/middleware/async-handler";
 import { loginSchema } from "./auth.validator";
 

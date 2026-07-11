@@ -1,4 +1,4 @@
-import { hashValue } from "@/shared/utils/bcrypt";
+import { hashValue } from "@/shared/auth/bcrypt";
 import { toUserResponseDto } from "./user.mapper";
 import UserRepository from "./user.repository";
 import { CreateDoctorDto, CreateReceptionistDto, CreateSuperAdminDto, UserDocument, UserResponseDto } from "./user.types";

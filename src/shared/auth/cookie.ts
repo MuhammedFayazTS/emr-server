@@ -1,6 +1,6 @@
 import { CookieOptions, Response } from "express";
 import config from "@/config/index";
-import { calculateExpirationDate, ONE_DAY_IN_MS } from "./date";
+import { calculateExpirationDate, ONE_DAY_IN_MS } from "../utils/date";
 
 type CookiePayloadType = {
     res: Response;

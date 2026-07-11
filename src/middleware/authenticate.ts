@@ -6,7 +6,7 @@ import {
   AccessTokenPayload,
   accessTokenOptions,
   verifyJwtToken,
-} from "@/shared/utils/jwt";
+} from "@/shared/auth/jwt";
 import { UnauthorizedException } from "@/shared/errors/AuthExceptions";
 
 // Instantiate once when the module is loaded

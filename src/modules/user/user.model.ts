@@ -1,5 +1,5 @@
 import mongoose, { Schema, model } from "mongoose";
-import { compareValue, hashValue } from "@/shared/utils/bcrypt";
+import { compareValue, hashValue } from "@/shared/auth/bcrypt";
 import { IUser, IUserMethods, UserModelType } from "./user.types";
 import { emailValidator } from "@/shared/validators/common-validators";
 
