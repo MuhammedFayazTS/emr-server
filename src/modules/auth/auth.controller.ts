@@ -58,6 +58,13 @@ export class AuthController {
         }
     );
 
+    public getCurrentUser = asyncHandler(
+        async (req: Request, res: Response): Promise<any> => {
+            const user = req.user;
+            return ApiResponse.ok(res, "User fetched successfully", user);
+        }
+    )
+
     public logout = asyncHandler(
         async (req: Request, res: Response): Promise<any> => {
             const refreshToken = req.cookies.refreshToken;
