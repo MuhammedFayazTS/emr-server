@@ -15,6 +15,8 @@ export const ROLE_PERMISSIONS: Record<UserRole, readonly Permission[]> = {
 
         ...Object.values(PERMISSIONS.SCHEDULE),
 
+        ...Object.values(PERMISSIONS.SLOT),
+
         ...Object.values(PERMISSIONS.APPOINTMENT),
 
         ...Object.values(PERMISSIONS.DASHBOARD),
@@ -36,6 +38,8 @@ export const ROLE_PERMISSIONS: Record<UserRole, readonly Permission[]> = {
     ],
 
     [UserRole.DOCTOR]: [
+        PERMISSIONS.SLOT.VIEW,
+
         PERMISSIONS.APPOINTMENT.VIEW,
 
         PERMISSIONS.PATIENT.VIEW,

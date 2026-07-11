@@ -3,7 +3,7 @@ import DoctorScheduleService from "./doctor-schedule.service";
 import { asyncHandler } from "@/middleware/async-handler";
 import ApiResponse from "@/shared/utils/api-response";
 import { createDoctorScheduleSchema, updateDoctorScheduleSchema } from "./doctor-schedule.validator";
-import { commonQuerySchema, paramsIdSchema, objectIdSchema } from "@/shared/validators/common-validators";
+import { commonQuerySchema, paramsIdSchema, objectIdSchema, paramsDoctorIdSchema } from "@/shared/validators/common-validators";
 
 class DoctorScheduleController {
     private scheduleService: DoctorScheduleService;
@@ -38,7 +38,7 @@ class DoctorScheduleController {
     })
 
     getScheduleByDoctorId = asyncHandler(async (req: Request, res: Response) => {
-        const doctorId = objectIdSchema.parse(req.params.doctorId);
+        const { doctorId } = paramsDoctorIdSchema.parse(req.params);
         const schedule = await this.scheduleService.getScheduleByDoctorId(doctorId);
         return ApiResponse.ok(res, "Doctor schedule fetched successfully", schedule);
     })

@@ -41,6 +41,10 @@ export const PERMISSIONS = {
         DELETE: "schedule:delete",
     },
 
+    SLOT: {
+        VIEW: "slot:view",
+    },
+
     APPOINTMENT: {
         CREATE: "appointment:create",
         VIEW: "appointment:view",

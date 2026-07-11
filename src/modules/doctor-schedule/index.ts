@@ -8,5 +8,4 @@ const doctorScheduleController = new DoctorScheduleController(doctorScheduleServ
 
 export { doctorScheduleRepository, doctorScheduleService, doctorScheduleController, DoctorScheduleRepository, DoctorScheduleService };
 export { DoctorSchedule } from "./doctor-schedule.model";
-export { DayOfWeek } from "./doctor-schedule.types";
 export type { IDoctorSchedule, IWorkingDay, ISession, DoctorScheduleResponseDto } from "./doctor-schedule.types";

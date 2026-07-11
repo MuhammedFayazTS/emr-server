@@ -8,6 +8,7 @@ import doctorRoutes from "@/modules/doctor/doctor.routes";
 import doctorScheduleRoutes from "@/modules/doctor-schedule/doctor-schedule.routes";
 import receptionistRoutes from "@/modules/receptionist/receptionist.routes";
 import userRoutes from "@/modules/user/user.routes";
+import slotRoutes from "@/modules/slot/slot.routes";
 
 const router = Router();
 
@@ -17,5 +18,6 @@ router.use("/doctors", authenticate, doctorRoutes);
 router.use("/doctor-schedules", authenticate, doctorScheduleRoutes);
 router.use("/receptionists", authenticate, receptionistRoutes);
 router.use("/users", authenticate, userRoutes);
+router.use("/slots", authenticate, slotRoutes);
 
-export default router;
+export default router;

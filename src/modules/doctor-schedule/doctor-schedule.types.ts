@@ -1,20 +1,12 @@
 import { Document, Types } from "mongoose";
 import z from "zod";
 import { createDoctorScheduleSchema, updateDoctorScheduleSchema } from "./doctor-schedule.validator";
-
-export enum DayOfWeek {
-    MONDAY = "MONDAY",
-    TUESDAY = "TUESDAY",
-    WEDNESDAY = "WEDNESDAY",
-    THURSDAY = "THURSDAY",
-    FRIDAY = "FRIDAY",
-    SATURDAY = "SATURDAY",
-    SUNDAY = "SUNDAY",
-}
+import { DayOfWeek } from "@/shared/constants/days";
 
 export interface ISession {
     startTime: string; // "HH:mm" e.g. "09:00"
     endTime: string;   // "HH:mm" e.g. "12:00"
+    name: string;
 }
 
 export interface IWorkingDay {
