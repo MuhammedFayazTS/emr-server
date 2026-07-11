@@ -9,6 +9,7 @@ import doctorScheduleRoutes from "@/modules/doctor-schedule/doctor-schedule.rout
 import receptionistRoutes from "@/modules/receptionist/receptionist.routes";
 import userRoutes from "@/modules/user/user.routes";
 import slotRoutes from "@/modules/slot/slot.routes";
+import patientRoutes from "@/modules/patient/patient.routes";
 
 const router = Router();
 
@@ -19,5 +20,6 @@ router.use("/doctor-schedules", authenticate, doctorScheduleRoutes);
 router.use("/receptionists", authenticate, receptionistRoutes);
 router.use("/users", authenticate, userRoutes);
 router.use("/slots", authenticate, slotRoutes);
+router.use("/patients", authenticate, patientRoutes);
 
 export default router;

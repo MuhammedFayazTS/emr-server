@@ -25,6 +25,7 @@ export const PERMISSIONS = {
         VIEW: "patient:view",
         UPDATE: "patient:update",
         DELETE: "patient:delete",
+        STATUS_UPDATE: "patient:status_update",
     },
 
     DEPARTMENT: {
