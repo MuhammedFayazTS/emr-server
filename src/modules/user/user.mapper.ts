@@ -1,4 +1,4 @@
-import { UserDocument, UserResponseDto } from "./user.types";
+import { DoctorResponseDto, UserDocument, UserResponseDto } from "./user.types";
 
 
 export function toUserResponseDto(user: UserDocument): UserResponseDto {
@@ -10,5 +10,15 @@ export function toUserResponseDto(user: UserDocument): UserResponseDto {
         phone: user.phone,
         isActive: user.isActive,
         createdAt: user.createdAt,
+    };
+}
+
+export function toDoctorResponseDto(doctor: any): DoctorResponseDto {
+    return {
+        ...toUserResponseDto(doctor),
+        department: doctor.department,
+        specialization: doctor.specialization,
+        scheduleId: doctor.scheduleId,
+        qualification: doctor.qualification,
     };
 }

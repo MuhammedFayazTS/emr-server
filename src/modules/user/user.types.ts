@@ -1,5 +1,7 @@
 import { Document, Types, Model } from "mongoose";
 import { SoftDeleteDocument, SoftDeleteModel } from "mongoose-delete";
+import z from "zod";
+import { createDoctorSchema, createReceptionistSchema, createSuperAdminSchema, updateDoctorSchema } from "./user.validator";
 
 export enum UserRole {
     SUPER_ADMIN = "super_admin",
@@ -50,17 +52,11 @@ export interface ISuperAdmin {
 export type UserModelType = SoftDeleteModel<UserDocument, {}, IUserMethods>;
 export type UserDocument = Document<Types.ObjectId, any, IUser> & IUser & IUserMethods & SoftDeleteDocument;
 
-// DTOS
-type CreateUserBaseDto = Pick<IUser, "name" | "email" | "phone"> & {
-    password: string;
-};
-
-// ---- Input DTOs ----
-export type CreateDoctorDto = CreateUserBaseDto & IDoctor;
-export type CreateReceptionistDto = CreateUserBaseDto & IReceptionist;
-export type CreateSuperAdminDto = CreateUserBaseDto & ISuperAdmin;
-
-export type CreateUserDto = CreateDoctorDto | CreateReceptionistDto | CreateSuperAdminDto;
+// ---- Input DTO ----
+export type CreateDoctorDto = z.infer<typeof createDoctorSchema>;
+export type UpdateDoctorDto = z.infer<typeof updateDoctorSchema>;
+export type CreateReceptionistDto = z.infer<typeof createReceptionistSchema>;
+export type CreateSuperAdminDto = z.infer<typeof createSuperAdminSchema>;
 
 // ---- Output DTO ----
 export interface UserResponseDto {
@@ -73,8 +69,6 @@ export interface UserResponseDto {
     createdAt?: Date;
 }
 
-// Role-specific response variants, in case you ever need to expose
-// department/specialization etc. back to the client (e.g. GET /doctors)
 export type DoctorResponseDto = UserResponseDto & IDoctor;
 export type ReceptionistResponseDto = UserResponseDto & IReceptionist;
 export type SuperAdminResponseDto = UserResponseDto & ISuperAdmin;
