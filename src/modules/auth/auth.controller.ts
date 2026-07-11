@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { AuthService } from "@/modules/auth/auth.service";
+import AuthService from "@/modules/auth/auth.service";
 import ApiResponse from "@/shared/utils/api-response";
 import { clearAuthenticationCookies, setAuthenticationCookies } from "@/shared/auth/cookie";
 import { asyncHandler } from "@/middleware/async-handler";
 import { loginSchema } from "./auth.validator";
 
-export class AuthController {
+class AuthController {
     private authService: AuthService
     constructor(authService: AuthService) {
         this.authService = authService
@@ -74,3 +74,5 @@ export class AuthController {
         }
     );
 }
+
+export default AuthController

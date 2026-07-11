@@ -8,7 +8,7 @@ import { calculateExpirationDate } from "@/shared/utils/date";
 import config from "@config/index";
 import { compareValue } from "@/shared/auth/bcrypt";
 
-export class AuthService {
+class AuthService {
   private userService: UserService
   constructor(userService: UserService) {
     this.userService = userService;
@@ -157,3 +157,5 @@ export class AuthService {
     return
   }
 }
+
+export default AuthService
