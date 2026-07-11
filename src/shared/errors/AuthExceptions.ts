@@ -9,3 +9,12 @@ export class UnauthorizedException extends AppError {
     );
   }
 }
+
+export class ForbiddenException extends AppError {
+  constructor(message = "Forbidden") {
+    super(
+      message,
+      HTTP_STATUS_CODES.FORBIDDEN,
+    );
+  }
+}
