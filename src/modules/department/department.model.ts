@@ -1,4 +1,5 @@
 import mongoose, { Schema, model } from "mongoose";
+import mongooseDelete from "mongoose-delete";
 import { IDepartment, DepartmentModelType } from "./department.types";
 
 export const baseOptions = {
@@ -27,8 +28,14 @@ const departmentSchema = new Schema<IDepartment, DepartmentModelType>(
     baseOptions
 );
 
+// soft delete plugin
+departmentSchema.plugin(mongooseDelete, {
+    deletedAt: true,
+    overrideMethods: true,
+});
+
 // ---- Indexes ----
-departmentSchema.index({ name: 1 }, { unique: true });
+departmentSchema.index({ name: 1 }, { unique: true, partialFilterExpression: { deleted: false } });
 departmentSchema.index({ isActive: 1 });
 
 // ---- toJSON configuration ----

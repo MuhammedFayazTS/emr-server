@@ -39,9 +39,16 @@ class DepartmentService {
         return department;
     }
 
-
     async deleteDepartment(id: string) {
-        return await this.departmentRepository.deleteDepartment(id);
+        const deleted = await this.departmentRepository.deleteDepartment(id);
+        if(!deleted) throw new NotFoundError("Department not found");
+        return deleted;
+    }
+
+    async restoreDepartment(id: string) {
+        const restored = await this.departmentRepository.restoreDepartment(id);
+        if(!restored) throw new NotFoundError("Department not found");
+        return restored;
     }
 }
 

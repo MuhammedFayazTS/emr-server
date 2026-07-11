@@ -1,4 +1,5 @@
 import mongoose, { Schema, model } from "mongoose";
+import mongooseDelete from "mongoose-delete";
 import { compareValue, hashValue } from "@/shared/auth/bcrypt";
 import { IUser, IUserMethods, UserModelType } from "./user.types";
 import { emailValidator } from "@/shared/validators/common-validators";
@@ -74,8 +75,14 @@ const userSchema = new Schema<IUser, UserModelType, IUserMethods>(
     baseOptions
 );
 
+// soft delete plugin
+userSchema.plugin(mongooseDelete, {
+    deletedAt: true,
+    overrideMethods: true,
+});
+
 // ---- Indexes ----
-userSchema.index({ email: 1 }, { unique: true });
+userSchema.index({ email: 1 }, { unique: true, partialFilterExpression: { deleted: false } });
 userSchema.index({ role: 1, isActive: 1 }); // fast lookups like "all active doctors"
 
 // ---- Hooks ----

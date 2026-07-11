@@ -1,6 +1,6 @@
 import { Document, Model, Types } from "mongoose";
-
-export interface IDepartment extends Document {
+import { SoftDeleteDocument, SoftDeleteModel } from "mongoose-delete";
+export interface IDepartment {
     _id: Types.ObjectId;
     name: string;
     description?: string;
@@ -9,4 +9,5 @@ export interface IDepartment extends Document {
     updatedAt: Date;
 }
 
-export type DepartmentModelType = Model<IDepartment>;
+export type DepartmentDocument = IDepartment & Document & SoftDeleteDocument;
+export type DepartmentModelType = SoftDeleteModel<DepartmentDocument>;

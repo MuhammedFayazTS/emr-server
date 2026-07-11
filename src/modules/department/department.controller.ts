@@ -60,6 +60,14 @@ class DepartmentController {
             return ApiResponse.ok(res, "Department deleted successfully", department);
         }
     )
+
+    public restoreDepartment = asyncHandler(
+        async (req: Request, res: Response): Promise<any> => {
+            const { id } = paramsIdSchema.parse(req.params);
+            const department = await this.departmentService.restoreDepartment(id);
+            return ApiResponse.ok(res, "Department restored successfully", department);
+        }
+    )
 }
 
 export default DepartmentController

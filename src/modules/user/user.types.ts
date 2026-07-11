@@ -1,4 +1,5 @@
 import { Document, Types, Model } from "mongoose";
+import { SoftDeleteDocument, SoftDeleteModel } from "mongoose-delete";
 
 export enum UserRole {
     SUPER_ADMIN = "super_admin",
@@ -7,7 +8,7 @@ export enum UserRole {
 }
 
 export interface IRefreshToken {
-    tokenId:  string;
+    tokenId: string;
     tokenHash: string;
     expiresAt: Date;
     createdAt?: Date;
@@ -46,9 +47,8 @@ export interface ISuperAdmin {
     permissions?: string[];
 }
 
-export type UserModelType = Model<IUser, {}, IUserMethods>;
-export type UserDocument = Document<Types.ObjectId, any, IUser> & IUser & IUserMethods;
-
+export type UserModelType = SoftDeleteModel<UserDocument, {}, IUserMethods>;
+export type UserDocument = Document<Types.ObjectId, any, IUser> & IUser & IUserMethods & SoftDeleteDocument;
 
 // DTOS
 type CreateUserBaseDto = Pick<IUser, "name" | "email" | "phone"> & {

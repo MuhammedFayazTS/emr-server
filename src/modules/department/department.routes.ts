@@ -15,6 +15,8 @@ router.put('/:id', authorize(PERMISSIONS.DEPARTMENT.UPDATE), departmentControlle
 
 router.patch('/:id/status', authorize(PERMISSIONS.DEPARTMENT.UPDATE), departmentController.updateDepartmentStatus)
 
+router.patch('/:id/restore', authorize(PERMISSIONS.DEPARTMENT.UPDATE), departmentController.restoreDepartment)
+
 router.delete('/:id', authorize(PERMISSIONS.DEPARTMENT.DELETE), departmentController.deleteDepartment)
 
 export default router

@@ -58,7 +58,19 @@ class DepartmentRepository {
     }
 
     async deleteDepartment(id: string) {
-        return await Department.findByIdAndDelete(id);
+        const department = await Department.findById(id);
+
+        if (!department) {
+            return null;
+        }
+
+        return await department.delete();
+    }
+
+    async restoreDepartment(id: string) {
+        const department = await Department.findOneDeleted({ _id: id });
+        if (!department) return null;
+        return await department.restore();
     }
 }
 
