@@ -144,6 +144,24 @@ class AppointmentRepository {
             status: { $nin: [AppointmentStatus.CANCELLED] },
         });
     }
+
+    async findBookedSlotsByDoctorAndDate(
+        doctorId: string,
+        date: Date
+    ) {
+        return await Appointment.find(
+            {
+                doctorId,
+                date,
+                status: {
+                    $nin: [AppointmentStatus.CANCELLED],
+                },
+            },
+            {
+                startTime: 1,
+            }
+        ).lean();
+    }
 }
 
 export default AppointmentRepository;
