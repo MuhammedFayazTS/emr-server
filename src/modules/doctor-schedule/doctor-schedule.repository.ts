@@ -12,7 +12,8 @@ class DoctorScheduleRepository {
     }
 
     async findById(id: string) {
-        return await DoctorSchedule.findById(id);
+        return await DoctorSchedule.findById(id)
+        .populate("doctorId", "name email");
     }
 
     async findByDoctorId(doctorId: string) {
