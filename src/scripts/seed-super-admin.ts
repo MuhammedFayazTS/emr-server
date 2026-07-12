@@ -28,7 +28,7 @@ async function seedSuperAdmin() {
         name,
         email,
         password,
-        permissions: ["*"],
+        phone: "+91 1234567890",
     });
 
     console.log(`Super Admin created: ${superAdmin.email} (id: ${superAdmin.id})`);
