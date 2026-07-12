@@ -2,6 +2,7 @@ import { Document, Types, Model } from "mongoose";
 import { SoftDeleteDocument, SoftDeleteModel } from "mongoose-delete";
 import z from "zod";
 import { createReceptionistSchema, createSuperAdminSchema } from "./user.validator";
+import { Permission } from "@/shared/constants/permissions";
 
 export enum UserRole {
     SUPER_ADMIN = "super_admin",
@@ -56,6 +57,7 @@ export interface UserResponseDto {
     email: string;
     role: UserRole;
     phone?: string;
+    permissions: readonly Permission[]
     isActive: boolean;
     createdAt?: Date;
 }

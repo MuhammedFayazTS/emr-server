@@ -57,6 +57,8 @@ class AuthService {
   }
 
   public async refreshToken(refreshToken: string) {
+    if (!refreshToken) throw new UnauthorizedError("Session expired. Please log in again.");
+
     // Verify JWT
     const payload = verifyJwtToken<RefreshTokenPayload>(
       refreshToken,

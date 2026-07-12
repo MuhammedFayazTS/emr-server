@@ -4,6 +4,7 @@ import ApiResponse from "@/shared/utils/api-response";
 import { clearAuthenticationCookies, setAuthenticationCookies } from "@/shared/auth/cookie";
 import { asyncHandler } from "@/middleware/async-handler";
 import { loginSchema } from "./auth.validator";
+import { toUserResponseDto } from "../user/user.mapper";
 
 class AuthController {
     private authService: AuthService
@@ -60,7 +61,7 @@ class AuthController {
 
     public getCurrentUser = asyncHandler(
         async (req: Request, res: Response): Promise<any> => {
-            const user = req.user;
+            const user = toUserResponseDto(req.user);
             return ApiResponse.ok(res, "User fetched successfully", user);
         }
     )
