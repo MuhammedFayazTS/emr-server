@@ -1,9 +1,9 @@
-import SlotService from "./slot.service";
-import { ISlot } from "./slot.types";
 import SlotController from "./slot.controller";
 import { doctorScheduleService } from "../doctor-schedule";
+import { appointmentRepository } from "../appointment";
+import SlotService from "./slot.service";
 
-const slotService = new SlotService(doctorScheduleService);
+const slotService = new SlotService(doctorScheduleService, appointmentRepository);
 const slotController = new SlotController(slotService);
 
-export { slotController, slotService, ISlot };
+export { slotService, slotController };

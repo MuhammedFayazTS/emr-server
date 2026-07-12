@@ -118,7 +118,7 @@ class AppointmentRepository {
         }
 
         const appointments = await Appointment.find(filter)
-            .populate("patientId", "name email phone")
+            .populate("patientId", "firstName lastName email phone")
             .populate("doctorId", "name email")
             .populate("departmentId", "name")
             .sort({ _id: 1 })

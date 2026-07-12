@@ -11,7 +11,7 @@ const app = express();
 app.use(cors({
     origin: config.cors.origin,
     credentials: config.cors.credentials,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
 }))
 
 // body parsing

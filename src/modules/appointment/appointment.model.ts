@@ -6,7 +6,6 @@ const appointmentSchema = new Schema<IAppointment>(
         appointmentNumber: {
             type: String,
             required: [true, "Appointment number is required"],
-            unique: true,
         },
 
         patientId: {
