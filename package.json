@@ -19,6 +19,7 @@
     "cors": "^2.8.6",
     "date-fns": "^4.4.0",
     "dotenv": "^17.4.2",
+    "express-rate-limit": "^8.5.2",
     "jsonwebtoken": "^9.0.3",
     "libphonenumber-js": "^1.13.8",
     "mongoose": "^9.7.4",

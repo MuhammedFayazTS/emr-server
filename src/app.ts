@@ -4,6 +4,7 @@ import config from "@/config/index"
 import ApiResponse from "./shared/utils/api-response";
 import apiRoutes from "./routes";
 import { errorHandler } from "@/middleware/error-handler";
+import { apiRateLimiter } from "@/middleware/rate-limiter";
 import cookieParser from "cookie-parser";
 
 const app = express();
@@ -20,8 +21,11 @@ app.use(express.json({ limit: "10mb" }))
 app.use(express.urlencoded({ extended: true, limit: "10mb" }))
 app.use(cookieParser());
 
+// rate limiting (applied before API routes)
+app.use(config.basePath, apiRateLimiter);
+
 // api routes
-app.use("/api/v1", apiRoutes);
+app.use(config.basePath, apiRoutes);
 
 // health check route
 app.get("/", (_req, res) => {

@@ -25,7 +25,14 @@ const config = {
 
     basePath: getEnv("BASE_PATH", "/api/v1"),
 
-    nodeEnv: getEnv("NODE_ENV", "development")
+    nodeEnv: getEnv("NODE_ENV", "development"),
+
+    rateLimit: {
+        windowMs: Number(getEnv("RATE_LIMIT_WINDOW_MS", String(15 * 60 * 1000))),
+        max: Number(getEnv("RATE_LIMIT_MAX", "100")),
+        authWindowMs: Number(getEnv("RATE_LIMIT_AUTH_WINDOW_MS", String(15 * 60 * 1000))),
+        authMax: Number(getEnv("RATE_LIMIT_AUTH_MAX", "10")),
+    },
 }
 
 export default config
