@@ -1,6 +1,7 @@
 import { NotFoundError } from "@/shared/errors/CommonExceptions";
 import DepartmentRepository from "./department.repository";
 import { IDepartment } from "./department.types";
+import { toDepartmentResponseDto, toPaginatedDepartmentResponse } from "./department.mapper";
 
 class DepartmentService {
     private departmentRepository: DepartmentRepository;
@@ -9,15 +10,20 @@ class DepartmentService {
     }
 
     async createDepartment(data: Partial<IDepartment>) {
-        return await this.departmentRepository.createDepartment(data);
+        const department = await this.departmentRepository.createDepartment(data);
+        return toDepartmentResponseDto(department);
     }
 
     async findByName(name: string) {
-        return await this.departmentRepository.findByName(name);
+        const department = await this.departmentRepository.findByName(name);
+        if (!department) return null;
+        return toDepartmentResponseDto(department);
     }
 
     async findById(id: string) {
-        return await this.departmentRepository.findById(id);
+        const department = await this.departmentRepository.findById(id);
+        if (!department) throw new NotFoundError("Department not found");
+        return toDepartmentResponseDto(department);
     }
 
     async findAll(query: {
@@ -26,7 +32,8 @@ class DepartmentService {
         search?: string;
         isActive?: boolean;
     }) {
-        return await this.departmentRepository.findAll(query);
+        const result = await this.departmentRepository.findAll(query);
+        return toPaginatedDepartmentResponse(result.data, result.pagination);
     }
 
     async updateDepartment(id: string, data: Partial<IDepartment>) {
@@ -36,19 +43,19 @@ class DepartmentService {
             throw new NotFoundError("Department not found");
         }
 
-        return department;
+        return toDepartmentResponseDto(department);
     }
 
     async deleteDepartment(id: string) {
         const deleted = await this.departmentRepository.deleteDepartment(id);
         if(!deleted) throw new NotFoundError("Department not found");
-        return deleted;
+        return toDepartmentResponseDto(deleted);
     }
 
     async restoreDepartment(id: string) {
         const restored = await this.departmentRepository.restoreDepartment(id);
         if(!restored) throw new NotFoundError("Department not found");
-        return restored;
+        return toDepartmentResponseDto(restored);
     }
 }
 

@@ -1,5 +1,14 @@
 import { AppointmentResponseDto } from "./appointment.types";
 
+export interface PaginatedAppointmentResponse {
+    data: AppointmentResponseDto[];
+    pagination: {
+        nextCursor: string | null;
+        hasNextPage: boolean;
+        limit: number;
+    };
+}
+
 export function toAppointmentResponseDto(appointment: any): AppointmentResponseDto {
     return {
         id: appointment._id.toString(),
@@ -18,5 +27,16 @@ export function toAppointmentResponseDto(appointment: any): AppointmentResponseD
         cancelReason: appointment.cancelReason,
         createdAt: appointment.createdAt,
         updatedAt: appointment.updatedAt,
+    };
+}
+
+export function toPaginatedAppointmentResponse(data: any[], pagination: any): PaginatedAppointmentResponse {
+    return {
+        data: data.map(toAppointmentResponseDto),
+        pagination: {
+            nextCursor: pagination.nextCursor ?? null,
+            hasNextPage: pagination.hasNextPage ?? false,
+            limit: pagination.limit ?? 10,
+        }
     };
 }

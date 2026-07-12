@@ -16,7 +16,7 @@ class DepartmentController {
         async (req: Request, res: Response): Promise<any> => {
             const body = createDepartmentSchema.parse(req.body);
             const department = await this.departmentService.createDepartment(body);
-            return ApiResponse.ok(res, "Department created successfully", department);
+            return ApiResponse.created(res, "Department created successfully", department);
         }
     )
 
@@ -32,7 +32,7 @@ class DepartmentController {
         async (req: Request, res: Response): Promise<any> => {
             const query = commonQuerySchema.parse(req.query)
             const departments = await this.departmentService.findAll(query);
-            return ApiResponse.ok(res, "Departments fetched successfully", departments);
+            return ApiResponse.ok(res, "Departments fetched successfully", departments.data, departments.pagination);
         }
     )
 
