@@ -6,4 +6,4 @@ import { doctorScheduleService } from "../doctor-schedule";
 const slotService = new SlotService(doctorScheduleService);
 const slotController = new SlotController(slotService);
 
-export { slotController, ISlot };
+export { slotController, slotService, ISlot };

@@ -6,4 +6,4 @@ const departmentRepository = new DepartmentRepository();
 const departmentService = new DepartmentService(departmentRepository);
 const departmentController = new DepartmentController(departmentService);
 
-export { departmentController };
+export { departmentController, departmentService };

@@ -12,7 +12,6 @@ class SlotService {
 
     async generateSlots(doctorId: string, date: Date): Promise<Record<string, ISlot[]>> {
         const schedule = await this.doctorScheduleService.getScheduleByDoctorId(doctorId);
-        if (!schedule) throw new NotFoundError("Schedule not found for the doctor");
 
         const { workingDays, slotDuration } = schedule;
 

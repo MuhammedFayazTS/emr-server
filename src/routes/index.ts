@@ -10,6 +10,7 @@ import receptionistRoutes from "@/modules/receptionist/receptionist.routes";
 import userRoutes from "@/modules/user/user.routes";
 import slotRoutes from "@/modules/slot/slot.routes";
 import patientRoutes from "@/modules/patient/patient.routes";
+import appointmentRoutes from "@/modules/appointment/appointment.routes";
 
 const router = Router();
 
@@ -21,5 +22,6 @@ router.use("/receptionists", authenticate, receptionistRoutes);
 router.use("/users", authenticate, userRoutes);
 router.use("/slots", authenticate, slotRoutes);
 router.use("/patients", authenticate, patientRoutes);
+router.use("/appointments", authenticate, appointmentRoutes);
 
 export default router;
