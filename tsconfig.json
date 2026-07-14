@@ -12,6 +12,8 @@
 
     "forceConsistentCasingInFileNames": true,
 
+    "baseUrl": ".",
+
     "paths": {
       "@/*": ["./src/*"],
       "@config/*": ["./src/config/*"],
@@ -21,5 +23,5 @@
       "@errors/*": ["./src/shared/errors/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src","tests"]
 }

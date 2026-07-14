@@ -11,9 +11,11 @@ import userRoutes from "@/modules/user/user.routes";
 import slotRoutes from "@/modules/slot/slot.routes";
 import patientRoutes from "@/modules/patient/patient.routes";
 import appointmentRoutes from "@/modules/appointment/appointment.routes";
+import healthCheckRoutes from "@/routes/health-check.route";
 
 const router = Router();
 
+router.use("/health-check", healthCheckRoutes);
 router.use("/auth", authRoutes);
 router.use("/departments", authenticate, departmentRoutes);
 router.use("/doctors", authenticate, doctorRoutes);
