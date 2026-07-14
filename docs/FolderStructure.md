@@ -9,35 +9,99 @@ This project is built using a **Modular Architecture** in TypeScript. This struc
 ```text
 server/
 ├── docs/
-│   └── FolderStructure.md       # Folder structure and architectural documentation
+│   └── FolderStructure.md          # Folder structure and architectural documentation
+│
 ├── src/
-│   ├── config/                  # Server configuration (DB connection, environment variables)
-│   │   ├── db.ts                # Database connection configuration using Mongoose
-│   │   └── index.ts             # Global configuration parameters
-│   ├── middleware/              # Express middlewares
-│   │   └── error-handler.ts     # Global centralized error handler
-│   ├── modules/                 # Self-contained business modules (by domain)
-│   │   └── auth/                # Authentication module
+│   ├── config/                     # Server configuration (DB connection, environment variables)
+│   │   ├── db.ts                   # Database connection configuration using Mongoose
+│   │   └── index.ts                # Global configuration parameters
+│   │
+│   ├── middleware/                 # Express middlewares
+│   │   ├── authenticate.ts
+│   │   ├── authorize.ts
+│   │   ├── error-handler.ts        # Global centralized error handler
+│   │   └── __tests__/              # Unit tests for middleware
+│   │       ├── authenticate.test.ts
+│   │       └── authorize.test.ts
+│   │
+│   ├── modules/                    # Self-contained business modules (by domain)
+│   │   └── auth/
+│   │       ├── __tests__/          # Unit tests for Auth module
+│   │       │   ├── auth.controller.test.ts
+│   │       │   ├── auth.repository.test.ts
+│   │       │   ├── auth.routes.test.ts
+│   │       │   └── auth.service.test.ts
 │   │       ├── auth.controller.ts  # Parses requests, validates input, calls service
 │   │       ├── auth.repository.ts  # Handles database access and query logic
-│   │       ├── auth.routes.ts      # Defines API endpoints for auth (e.g. /register)
-│   │       ├── auth.service.ts     # Holds business logic and coordinates operations
-│   │       └── index.ts            # Entry point for dependency injection instantiation
-│   ├── routes/                  # Centralized router configuration
-│   │   └── index.ts             # Mounts all feature module routers (e.g. /api/v1/auth)
-│   ├── shared/                  # Utilities, constants, and errors shared across modules
+│   │       ├── auth.routes.ts      # Defines API endpoints
+│   │       ├── auth.service.ts     # Holds business logic
+│   │       └── index.ts            # Dependency injection entry point
+│   │
+│   ├── routes/                     # Centralized router configuration
+│   │   └── index.ts                # Mounts all feature module routers
+│   │
+│   ├── shared/                     # Shared utilities, constants and helpers
+│   │   ├── auth/
+│   │   │   ├── bcrypt.ts
+│   │   │   ├── jwt.ts
+│   │   │   ├── permissions.ts
+│   │   │   ├── role-permissions.ts
+│   │   │   ├── permission.service.ts
+│   │   │   └── __tests__/
+│   │   │       ├── bcrypt.test.ts
+│   │   │       ├── jwt.test.ts
+│   │   │       └── permission.service.test.ts
+│   │   │
 │   │   ├── constants/
-│   │   │   └── http-status-codes.ts # Centralized enum list of HTTP response codes
+│   │   │   └── http-status-codes.ts
+│   │   │
 │   │   ├── errors/
-│   │   │   ├── AppError.ts      # Custom AppError base class for operational errors
-│   │   │   └── CommonExceptions.ts # Specific exception subclasses (e.g. BadRequestError)
-│   │   └── utils/
-│   │       └── api-response.ts  # ApiResponse helper class for consistent JSON formats
-│   ├── app.ts                   # Express app initializations (CORS, body parsing, routing)
-│   └── server.ts                # App listener entry point
-├── package.json                 # Project dependencies and script definitions
-├── tsconfig.json                # TypeScript compiler configuration and path aliases
-└── .env                         # Local environment configuration file (ignored by Git)
+│   │   │   ├── AppError.ts
+│   │   │   └── CommonExceptions.ts
+│   │   │
+│   │   ├── utils/
+│   │   │   ├── api-response.ts
+│   │   │   └── __tests__/
+│   │   │       ├── api-response.test.ts
+│   │   │       └── date.test.ts
+│   │   │
+│   │   └── validators/
+│   │       └── __tests__/
+│   │           └── validators.test.ts
+│   │
+│   ├── app.ts                      # Express app initialization
+│   └── server.ts                   # HTTP server entry point
+│
+├── tests/                          # Application-level tests
+│   ├── integration/                # Route/API integration tests
+│   │   ├── health.test.ts
+│   │   ├── auth/
+│   │   ├── appointment/
+│   │   ├── patient/
+│   │   ├── doctor/
+│   │   └── department/
+│   │
+│   ├── e2e/                        # End-to-end workflow tests
+│   │   ├── appointment-booking.test.ts
+│   │   └── complete-flow.test.ts
+│   │
+│   ├── helpers/                    # Shared test utilities
+│   │   ├── factory.ts
+│   │   ├── test-app.ts
+│   │   ├── test-db.ts
+│   │   └── seed.ts
+│   │
+│   ├── fixtures/                   # Static test data
+│   │   ├── users.ts
+│   │   ├── doctors.ts
+│   │   └── patients.ts
+│   │
+│   └── setup.ts                    # Global Vitest setup
+│
+├── package.json                    # Project dependencies and scripts
+├── tsconfig.json                   # TypeScript configuration
+├── vitest.config.ts                # Vitest configuration
+└── .env                            # Local environment variables
 ```
 
 ---
