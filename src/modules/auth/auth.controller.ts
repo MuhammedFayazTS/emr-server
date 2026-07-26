@@ -1,4 +1,6 @@
 import { asyncHandler } from "@/middleware/async-handler";
+import type AuditLogService from "@/modules/audit-log/audit-log.service";
+import { AuditAction } from "@/modules/audit-log/audit-log.types";
 import type AuthService from "@/modules/auth/auth.service";
 import { clearAuthenticationCookies, setAuthenticationCookies } from "@/shared/auth/cookie";
 import ApiResponse from "@/shared/utils/api-response";
@@ -11,8 +13,11 @@ import type { Request, Response } from "express";
 
 class AuthController {
     private authService: AuthService;
-    constructor(authService: AuthService) {
+    private auditLogService?: AuditLogService;
+
+    constructor(authService: AuthService, auditLogService?: AuditLogService) {
         this.authService = authService;
+        this.auditLogService = auditLogService;
     }
 
     public login = asyncHandler(async (req: Request, res: Response): Promise<any> => {
@@ -25,6 +30,17 @@ class AuthController {
         const { user, accessToken, refreshToken } = await this.authService.login(body);
 
         setAuthenticationCookies(res, accessToken, refreshToken);
+
+        await this.auditLogService?.log({
+            actorId: user.id,
+            actorType: "USER",
+            action: AuditAction.LOGIN,
+            entityType: "User",
+            entityId: user.id,
+            metadata: { ip: req.ip, userAgent: req.get("user-agent") },
+            status: "SUCCESS",
+            message: "User logged in successfully",
+        });
 
         return ApiResponse.ok(res, "User login successfully", {
             user,
@@ -51,6 +67,18 @@ class AuthController {
         const refreshToken = req.cookies.refreshToken;
         await this.authService.logout(refreshToken);
         clearAuthenticationCookies(res);
+
+        await this.auditLogService?.log({
+            actorId: req.user?._id ?? null,
+            actorType: req.user ? "USER" : "SYSTEM",
+            action: AuditAction.LOGOUT,
+            entityType: "User",
+            entityId: req.user?._id ?? null,
+            metadata: { ip: req.ip, userAgent: req.get("user-agent") },
+            status: "SUCCESS",
+            message: "User logged out successfully",
+        });
+
         return ApiResponse.ok(res, "User logout successfully");
     });
 }

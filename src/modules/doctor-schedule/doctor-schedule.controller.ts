@@ -1,10 +1,11 @@
 import { asyncHandler } from "@/middleware/async-handler";
+import type AuditLogService from "@/modules/audit-log/audit-log.service";
+import { AuditAction } from "@/modules/audit-log/audit-log.types";
 import ApiResponse from "@/shared/utils/api-response";
 import {
     commonQuerySchema,
-    paramsIdSchema,
-    objectIdSchema,
     paramsDoctorIdSchema,
+    paramsIdSchema,
 } from "@/shared/validators/common-validators";
 
 import {
@@ -17,21 +18,47 @@ import type { Request, Response } from "express";
 
 class DoctorScheduleController {
     private scheduleService: DoctorScheduleService;
+    private auditLogService?: AuditLogService;
 
-    constructor(scheduleService: DoctorScheduleService) {
+    constructor(scheduleService: DoctorScheduleService, auditLogService?: AuditLogService) {
         this.scheduleService = scheduleService;
+        this.auditLogService = auditLogService;
     }
 
     createSchedule = asyncHandler(async (req: Request, res: Response) => {
         const body = createDoctorScheduleSchema.parse(req.body);
         const schedule = await this.scheduleService.createSchedule(body);
+
+        await this.auditLogService?.logChange({
+            actorId: req.user?._id,
+            actorType: req.user ? "USER" : "SYSTEM",
+            action: AuditAction.CREATE,
+            entityType: "DoctorSchedule",
+            entityId: schedule.id,
+            after: schedule,
+            metadata: { ip: req.ip, userAgent: req.get("user-agent") },
+        });
+
         return ApiResponse.created(res, "Doctor schedule created successfully", schedule);
     });
 
     updateSchedule = asyncHandler(async (req: Request, res: Response) => {
         const body = updateDoctorScheduleSchema.parse(req.body);
         const { id } = paramsIdSchema.parse(req.params);
+        const before = await this.scheduleService.getScheduleById(id);
         const schedule = await this.scheduleService.updateSchedule(id, body);
+
+        await this.auditLogService?.logChange({
+            actorId: req.user?._id,
+            actorType: req.user ? "USER" : "SYSTEM",
+            action: AuditAction.UPDATE,
+            entityType: "DoctorSchedule",
+            entityId: id,
+            before,
+            after: schedule,
+            metadata: { ip: req.ip, userAgent: req.get("user-agent") },
+        });
+
         return ApiResponse.ok(res, "Doctor schedule updated successfully", schedule);
     });
 
@@ -60,7 +87,19 @@ class DoctorScheduleController {
 
     deleteSchedule = asyncHandler(async (req: Request, res: Response) => {
         const { id } = paramsIdSchema.parse(req.params);
+        const before = await this.scheduleService.getScheduleById(id);
         await this.scheduleService.deleteSchedule(id);
+
+        await this.auditLogService?.logChange({
+            actorId: req.user?._id,
+            actorType: req.user ? "USER" : "SYSTEM",
+            action: AuditAction.DELETE,
+            entityType: "DoctorSchedule",
+            entityId: id,
+            before,
+            metadata: { ip: req.ip, userAgent: req.get("user-agent") },
+        });
+
         return ApiResponse.ok(res, "Doctor schedule deleted successfully");
     });
 }
