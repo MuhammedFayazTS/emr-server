@@ -33,8 +33,9 @@ export const errorHandler: ErrorRequestHandler = (error, req, res, next): any =>
     }
 
     if (isMongoDuplicateKeyError(error)) {
-        const field = error.keyValue ? Object.keys(error.keyValue)[0] : "field";
-        const value = error.keyValue?.[field];
+        const keys = error.keyValue ? Object.keys(error.keyValue) : [];
+        const field = keys[0] ?? "field";
+        const value = error.keyValue ? error.keyValue[field] : undefined;
         return ApiResponse.error(
             res,
             HTTP_STATUS_CODES.CONFLICT,

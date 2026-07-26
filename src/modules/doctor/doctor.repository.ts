@@ -48,7 +48,9 @@ class DoctorRepository {
         return {
             data: results,
             pagination: {
-                nextCursor: hasNextPage ? results[results.length - 1]._id.toString() : null,
+                nextCursor: hasNextPage
+                    ? (results[results.length - 1]?._id.toString() ?? null)
+                    : null,
                 hasNextPage,
                 limit,
             },
