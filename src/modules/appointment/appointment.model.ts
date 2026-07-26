@@ -1,5 +1,8 @@
 import mongoose, { Schema } from "mongoose";
-import { AppointmentStatus, IAppointment } from "./appointment.types";
+
+import { AppointmentStatus } from "./appointment.types";
+
+import type { IAppointment } from "./appointment.types";
 
 const appointmentSchema = new Schema<IAppointment>(
     {
@@ -75,14 +78,11 @@ const appointmentSchema = new Schema<IAppointment>(
     },
     {
         timestamps: true,
-    }
+    },
 );
 
 // ---------------- Indexes ----------------
-appointmentSchema.index(
-    { appointmentNumber: 1 },
-    { unique: true }
-);
+appointmentSchema.index({ appointmentNumber: 1 }, { unique: true });
 
 // Prevent double booking of active appointments
 appointmentSchema.index(
@@ -104,7 +104,7 @@ appointmentSchema.index(
                 ],
             },
         },
-    }
+    },
 );
 
 appointmentSchema.index({
@@ -123,7 +123,4 @@ appointmentSchema.index({
     date: 1,
 });
 
-export const Appointment = mongoose.model<IAppointment>(
-    "Appointment",
-    appointmentSchema
-);
+export const Appointment = mongoose.model<IAppointment>("Appointment", appointmentSchema);

@@ -1,5 +1,6 @@
 import { toUserResponseDto } from "@modules/user/user.mapper";
-import { ReceptionistResponseDto } from "./receptionist.types";
+
+import type { ReceptionistResponseDto } from "./receptionist.types";
 
 export interface PaginatedReceptionistResponse {
     data: ReceptionistResponseDto[];
@@ -17,13 +18,16 @@ export function toReceptionistResponseDto(receptionist: any): ReceptionistRespon
     };
 }
 
-export function toPaginatedReceptionistResponse(data: any[], pagination: any): PaginatedReceptionistResponse {
+export function toPaginatedReceptionistResponse(
+    data: any[],
+    pagination: any,
+): PaginatedReceptionistResponse {
     return {
         data: data.map(toReceptionistResponseDto),
         pagination: {
             nextCursor: pagination.nextCursor ?? null,
             hasNextPage: pagination.hasNextPage ?? false,
             limit: pagination.limit ?? 10,
-        }
+        },
     };
 }

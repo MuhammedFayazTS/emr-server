@@ -1,27 +1,30 @@
 {
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "outDir": "./dist",
-    "rootDir": "./src",
+    "compilerOptions": {
+        "target": "ES2022",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "outDir": "./dist",
+        "rootDir": "./src",
 
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "noUncheckedIndexedAccess": true,
+        "noImplicitOverride": true,
+        "noFallthroughCasesInSwitch": true,
 
-    "forceConsistentCasingInFileNames": true,
+        "forceConsistentCasingInFileNames": true,
 
-    "baseUrl": ".",
+        "baseUrl": ".",
 
-    "paths": {
-      "@/*": ["./src/*"],
-      "@config/*": ["./src/config/*"],
-      "@modules/*": ["./src/modules/*"],
-      "@utils/*": ["./src/shared/utils/*"],
-      "@constants/*": ["./src/shared/constants/*"],
-      "@errors/*": ["./src/shared/errors/*"]
-    }
-  },
-  "include": ["src","tests"]
+        "paths": {
+            "@/*": ["./src/*"],
+            "@config/*": ["./src/config/*"],
+            "@modules/*": ["./src/modules/*"],
+            "@utils/*": ["./src/shared/utils/*"],
+            "@constants/*": ["./src/shared/constants/*"],
+            "@errors/*": ["./src/shared/errors/*"]
+        }
+    },
+    "include": ["src", "tests"]
 }

@@ -29,13 +29,16 @@ export function toDepartmentResponseDto(department: any): DepartmentResponseDto 
     };
 }
 
-export function toPaginatedDepartmentResponse(data: any[], pagination: any): PaginatedDepartmentResponse {
+export function toPaginatedDepartmentResponse(
+    data: any[],
+    pagination: any,
+): PaginatedDepartmentResponse {
     return {
         data: data.map(toDepartmentResponseDto),
         pagination: {
             nextCursor: pagination.nextCursor ?? null,
             hasNextPage: pagination.hasNextPage ?? false,
             limit: pagination.limit ?? 10,
-        }
+        },
     };
 }

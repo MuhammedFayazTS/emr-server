@@ -1,5 +1,7 @@
 import z from "zod";
+
 import { objectIdSchema, dateSchema } from "@/shared/validators/common-validators";
+
 import { AppointmentStatus } from "./appointment.types";
 
 const timeSchema = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, "Time must be in HH:mm format");

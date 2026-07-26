@@ -1,9 +1,12 @@
-import { toDoctorResponseDto } from "./doctor.mapper";
-import DoctorRepository from "./doctor.repository";
-import { CreateDoctorDto, DoctorResponseDto, UpdateDoctorDto } from "./doctor.types";
-import { UserRole } from "@modules/user/user.types";
 import { Types } from "mongoose";
+
 import { NotFoundError } from "@/shared/errors/CommonExceptions";
+import { UserRole } from "@modules/user/user.types";
+
+import { toDoctorResponseDto } from "./doctor.mapper";
+
+import type DoctorRepository from "./doctor.repository";
+import type { CreateDoctorDto, DoctorResponseDto, UpdateDoctorDto } from "./doctor.types";
 
 class DoctorService {
     private repository: DoctorRepository;
@@ -28,7 +31,7 @@ class DoctorService {
             department: new Types.ObjectId(data.department),
             scheduleId: data.scheduleId ? new Types.ObjectId(data.scheduleId) : undefined,
         });
-        if (!doctor) throw new NotFoundError("Doctor not found")
+        if (!doctor) throw new NotFoundError("Doctor not found");
         return toDoctorResponseDto(doctor);
     }
 

@@ -1,9 +1,10 @@
 import mongoose, { Schema, model } from "mongoose";
 import mongooseDelete from "mongoose-delete";
-import { IDepartment, DepartmentModelType } from "./department.types";
+
+import type { IDepartment, DepartmentModelType } from "./department.types";
 
 export const baseOptions = {
-    collection: 'departments',
+    collection: "departments",
     timestamps: true,
 };
 
@@ -11,7 +12,7 @@ const departmentSchema = new Schema<IDepartment, DepartmentModelType>(
     {
         name: {
             type: String,
-            required: [true, 'Department name is required'],
+            required: [true, "Department name is required"],
             trim: true,
             maxlength: [100, "Name cannot exceed 100 characters"],
         },
@@ -25,7 +26,7 @@ const departmentSchema = new Schema<IDepartment, DepartmentModelType>(
             default: true,
         },
     },
-    baseOptions
+    baseOptions,
 );
 
 // soft delete plugin
@@ -48,4 +49,4 @@ departmentSchema.set("toJSON", {
 
 export const Department =
     (mongoose.models.Department as DepartmentModelType) ||
-    model<IDepartment, DepartmentModelType>('Department', departmentSchema);
+    model<IDepartment, DepartmentModelType>("Department", departmentSchema);

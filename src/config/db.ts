@@ -1,13 +1,14 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
+
 import config from "./index";
 
 class DatabaseConfig {
     static async connect() {
         try {
-            const mongoURI = config.mongodb.uri
+            const mongoURI = config.mongodb.uri;
 
             if (!mongoURI) {
-                throw new Error('MongoDB connection URI is not defined in environment variables');
+                throw new Error("MongoDB connection URI is not defined in environment variables");
             }
 
             const options = {
@@ -16,11 +17,10 @@ class DatabaseConfig {
                 socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
             };
 
-            await mongoose.connect(mongoURI, options)
-            console.log("DB connected")
-
+            await mongoose.connect(mongoURI, options);
+            console.log("DB connected");
         } catch (error: any) {
-            console.log("Failed to connect to MongoDB:", error.message)
+            console.log("Failed to connect to MongoDB:", error.message);
             process.exit(1);
         }
     }
@@ -28,12 +28,11 @@ class DatabaseConfig {
     static async disconnect() {
         try {
             await mongoose.disconnect();
-            console.log('MongoDB disconnected successfully');
+            console.log("MongoDB disconnected successfully");
         } catch (error) {
-            console.error('Error disconnecting from MongoDB:', error);
+            console.error("Error disconnecting from MongoDB:", error);
         }
     }
 }
 
-
-export default DatabaseConfig
+export default DatabaseConfig;

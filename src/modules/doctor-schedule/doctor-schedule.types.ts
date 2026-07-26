@@ -1,11 +1,17 @@
-import { Document, Types } from "mongoose";
-import z from "zod";
-import { createDoctorScheduleSchema, updateDoctorScheduleSchema } from "./doctor-schedule.validator";
-import { DayOfWeek } from "@/shared/constants/days";
+import { Document } from "mongoose";
+
+import type { DayOfWeek } from "@/shared/constants/days";
+
+import type {
+    createDoctorScheduleSchema,
+    updateDoctorScheduleSchema,
+} from "./doctor-schedule.validator";
+import type { Types } from "mongoose";
+import type z from "zod";
 
 export interface ISession {
     startTime: string; // "HH:mm" e.g. "09:00"
-    endTime: string;   // "HH:mm" e.g. "12:00"
+    endTime: string; // "HH:mm" e.g. "12:00"
     name: string;
 }
 
@@ -39,4 +45,3 @@ export interface DoctorScheduleResponseDto {
     createdAt?: Date;
     updatedAt?: Date;
 }
-

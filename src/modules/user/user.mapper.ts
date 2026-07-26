@@ -1,9 +1,9 @@
 import { ROLE_PERMISSIONS } from "@/shared/auth/role-permissions";
-import { UserDocument, UserResponseDto, UserRole } from "./user.types";
 
+import type { UserDocument, UserResponseDto, UserRole } from "./user.types";
 
 export function toUserResponseDto(user: UserDocument): UserResponseDto {
-    const permissions = ROLE_PERMISSIONS[user.role]
+    const permissions = ROLE_PERMISSIONS[user.role];
     return {
         id: user._id.toString(),
         name: user.name,

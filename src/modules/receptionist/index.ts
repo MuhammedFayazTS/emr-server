@@ -6,4 +6,10 @@ const receptionistRepository = new ReceptionistRepository();
 const receptionistService = new ReceptionistService(receptionistRepository);
 const receptionistController = new ReceptionistController(receptionistService);
 
-export { receptionistRepository, receptionistService, receptionistController, ReceptionistRepository, ReceptionistService };
+export {
+    receptionistRepository,
+    receptionistService,
+    receptionistController,
+    ReceptionistRepository,
+    ReceptionistService,
+};

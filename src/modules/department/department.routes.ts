@@ -1,22 +1,35 @@
-import express from "express"
-import { departmentController } from "@modules/department"
-import { authorize } from "@/middleware/authorize"
-import { PERMISSIONS } from "@/shared/constants/permissions"
+import express from "express";
 
-const router = express.Router()
+import { authorize } from "@/middleware/authorize";
+import { PERMISSIONS } from "@/shared/constants/permissions";
+import { departmentController } from "@modules/department";
 
-router.post('/', authorize(PERMISSIONS.DEPARTMENT.CREATE), departmentController.createDepartment)
+const router = express.Router();
 
-router.get('/', authorize(PERMISSIONS.DEPARTMENT.VIEW), departmentController.getAllDepartments)
+router.post("/", authorize(PERMISSIONS.DEPARTMENT.CREATE), departmentController.createDepartment);
 
-router.get('/:id', authorize(PERMISSIONS.DEPARTMENT.VIEW), departmentController.getDepartment)
+router.get("/", authorize(PERMISSIONS.DEPARTMENT.VIEW), departmentController.getAllDepartments);
 
-router.put('/:id', authorize(PERMISSIONS.DEPARTMENT.UPDATE), departmentController.updateDepartment)
+router.get("/:id", authorize(PERMISSIONS.DEPARTMENT.VIEW), departmentController.getDepartment);
 
-router.patch('/:id/status', authorize(PERMISSIONS.DEPARTMENT.UPDATE), departmentController.updateDepartmentStatus)
+router.put("/:id", authorize(PERMISSIONS.DEPARTMENT.UPDATE), departmentController.updateDepartment);
 
-router.patch('/:id/restore', authorize(PERMISSIONS.DEPARTMENT.UPDATE), departmentController.restoreDepartment)
+router.patch(
+    "/:id/status",
+    authorize(PERMISSIONS.DEPARTMENT.UPDATE),
+    departmentController.updateDepartmentStatus,
+);
 
-router.delete('/:id', authorize(PERMISSIONS.DEPARTMENT.DELETE), departmentController.deleteDepartment)
+router.patch(
+    "/:id/restore",
+    authorize(PERMISSIONS.DEPARTMENT.UPDATE),
+    departmentController.restoreDepartment,
+);
 
-export default router
+router.delete(
+    "/:id",
+    authorize(PERMISSIONS.DEPARTMENT.DELETE),
+    departmentController.deleteDepartment,
+);
+
+export default router;

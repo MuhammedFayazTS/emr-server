@@ -1,6 +1,8 @@
-import { DoctorSchedule } from "./doctor-schedule.model";
-import { IDoctorSchedule } from "./doctor-schedule.types";
 import { Types } from "mongoose";
+
+import { DoctorSchedule } from "./doctor-schedule.model";
+
+import type { IDoctorSchedule } from "./doctor-schedule.types";
 
 class DoctorScheduleRepository {
     async create(data: Partial<IDoctorSchedule>) {
@@ -12,19 +14,14 @@ class DoctorScheduleRepository {
     }
 
     async findById(id: string) {
-        return await DoctorSchedule.findById(id)
-        .populate("doctorId", "name email");
+        return await DoctorSchedule.findById(id).populate("doctorId", "name email");
     }
 
     async findByDoctorId(doctorId: string) {
         return await DoctorSchedule.findOne({ doctorId });
     }
 
-    async findAll(query: {
-        limit?: number;
-        cursor?: string;
-        isActive?: boolean;
-    }) {
+    async findAll(query: { limit?: number; cursor?: string; isActive?: boolean }) {
         const limit = query.limit || 10;
 
         const filter: Record<string, any> = {};

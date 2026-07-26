@@ -1,7 +1,10 @@
+import { Types } from "mongoose";
+
 import { Doctor } from "./doctor.model";
-import { IDoctor } from "./doctor.types";
-import { IUser } from "@modules/user/user.types";
-import { QueryFilter, Types } from "mongoose";
+
+import type { IDoctor } from "./doctor.types";
+import type { IUser } from "@modules/user/user.types";
+import type { QueryFilter } from "mongoose";
 
 class DoctorRepository {
     async createDoctor(data: Partial<IUser> & IDoctor) {

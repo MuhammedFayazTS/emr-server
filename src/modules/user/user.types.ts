@@ -1,13 +1,14 @@
-import { Document, Types, Model } from "mongoose";
-import { SoftDeleteDocument, SoftDeleteModel } from "mongoose-delete";
-import z from "zod";
-import { createReceptionistSchema, createSuperAdminSchema } from "./user.validator";
-import { Permission } from "@/shared/constants/permissions";
+import type { Permission } from "@/shared/constants/permissions";
+
+import type { createReceptionistSchema, createSuperAdminSchema } from "./user.validator";
+import type { Document, Types } from "mongoose";
+import type { SoftDeleteDocument, SoftDeleteModel } from "mongoose-delete";
+import type z from "zod";
 
 export enum UserRole {
     SUPER_ADMIN = "super_admin",
     DOCTOR = "doctor",
-    RECEPTIONIST = "receptionist"
+    RECEPTIONIST = "receptionist",
 }
 
 export interface IRefreshToken {
@@ -44,7 +45,10 @@ export interface ISuperAdmin {
 }
 
 export type UserModelType = SoftDeleteModel<UserDocument, {}, IUserMethods>;
-export type UserDocument = Document<Types.ObjectId, any, IUser> & IUser & IUserMethods & SoftDeleteDocument;
+export type UserDocument = Document<Types.ObjectId, any, IUser> &
+    IUser &
+    IUserMethods &
+    SoftDeleteDocument;
 
 // ---- Input DTO ----
 export type CreateReceptionistDto = z.infer<typeof createReceptionistSchema>;
@@ -57,7 +61,7 @@ export interface UserResponseDto {
     email: string;
     role: UserRole;
     phone?: string;
-    permissions: readonly Permission[]
+    permissions: readonly Permission[];
     isActive: boolean;
     createdAt?: Date;
 }

@@ -6,6 +6,17 @@ const doctorScheduleRepository = new DoctorScheduleRepository();
 const doctorScheduleService = new DoctorScheduleService(doctorScheduleRepository);
 const doctorScheduleController = new DoctorScheduleController(doctorScheduleService);
 
-export { doctorScheduleRepository, doctorScheduleService, doctorScheduleController, DoctorScheduleRepository, DoctorScheduleService };
+export {
+    doctorScheduleRepository,
+    doctorScheduleService,
+    doctorScheduleController,
+    DoctorScheduleRepository,
+    DoctorScheduleService,
+};
 export { DoctorSchedule } from "./doctor-schedule.model";
-export type { IDoctorSchedule, IWorkingDay, ISession, DoctorScheduleResponseDto } from "./doctor-schedule.types";
+export type {
+    IDoctorSchedule,
+    IWorkingDay,
+    ISession,
+    DoctorScheduleResponseDto,
+} from "./doctor-schedule.types";

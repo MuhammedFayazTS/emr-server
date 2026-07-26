@@ -1,14 +1,16 @@
 import mongoose, { Schema, model } from "mongoose";
 import mongooseDelete from "mongoose-delete";
+
 import { compareValue, hashValue } from "@/shared/auth/bcrypt";
-import { IUser, IUserMethods, UserModelType } from "./user.types";
 import { emailValidator } from "@/shared/validators/common-validators";
+
+import type { IUser, IUserMethods, UserModelType } from "./user.types";
 
 const SALT_ROUNDS = 12;
 
 export const baseOptions = {
-    discriminatorKey: 'role', // this field determines the sub-type
-    collection: 'users',
+    discriminatorKey: "role", // this field determines the sub-type
+    collection: "users",
     timestamps: true,
 };
 
@@ -34,27 +36,27 @@ const refreshTokenSchema = new Schema(
     },
     {
         _id: false,
-    }
+    },
 );
 
 const userSchema = new Schema<IUser, UserModelType, IUserMethods>(
     {
         name: {
             type: String,
-            required: [true, 'Name is required'],
+            required: [true, "Name is required"],
             trim: true,
-            maxlength: [100, "Name cannot exceed 100 characters"]
+            maxlength: [100, "Name cannot exceed 100 characters"],
         },
         email: {
             type: String,
-            required: [true, 'Email is required'],
+            required: [true, "Email is required"],
             lowercase: true,
             trim: true,
-            validate: emailValidator
+            validate: emailValidator,
         },
         password: {
             type: String,
-            required: [true, 'Password is required'],
+            required: [true, "Password is required"],
             minlength: 8,
             select: false, // never returned by default in queries
         },
@@ -72,7 +74,7 @@ const userSchema = new Schema<IUser, UserModelType, IUserMethods>(
         // Refresh tokens are stored hashed, not plaintext, and support multi-device login
         refreshTokens: [refreshTokenSchema],
     },
-    baseOptions
+    baseOptions,
 );
 
 // soft delete plugin
@@ -95,7 +97,10 @@ userSchema.pre("save", async function () {
 });
 
 // ---- Instance methods ----
-userSchema.methods.comparePassword = async function (this: any, password: string): Promise<boolean> {
+userSchema.methods.comparePassword = async function (
+    this: any,
+    password: string,
+): Promise<boolean> {
     if (!this.password) return false;
     return await compareValue(password, this.password);
 };
@@ -108,4 +113,5 @@ userSchema.set("toJSON", {
     },
 });
 
-export const User = (mongoose.models.User as UserModelType) || model<IUser, UserModelType>('User', userSchema);
+export const User =
+    (mongoose.models.User as UserModelType) || model<IUser, UserModelType>("User", userSchema);

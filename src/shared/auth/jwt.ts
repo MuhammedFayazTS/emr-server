@@ -1,5 +1,8 @@
-import jwt, { SignOptions, VerifyOptions } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+
 import config from "@/config";
+
+import type { SignOptions, VerifyOptions } from "jsonwebtoken";
 
 export type AccessTokenPayload = {
     userId: string;
@@ -37,7 +40,7 @@ export const refreshTokenOptions: SignOptionsWithSecret = {
  */
 export const signJwtToken = <T extends object>(
     payload: T,
-    options: SignOptionsWithSecret
+    options: SignOptionsWithSecret,
 ): string => {
     const { secret, ...signOptions } = options;
 
@@ -52,19 +55,16 @@ export const signJwtToken = <T extends object>(
  * @param payload - Access token payload
  * @returns Access token
  */
-export const signAccessToken = (
-    payload: AccessTokenPayload
-): string => signJwtToken(payload, accessTokenOptions);
+export const signAccessToken = (payload: AccessTokenPayload): string =>
+    signJwtToken(payload, accessTokenOptions);
 
 /**
  * @description Sign a refresh token
  * @param payload - Refresh token payload
  * @returns Refresh token
  */
-export const signRefreshToken = (
-    payload: RefreshTokenPayload
-): string => signJwtToken(payload, refreshTokenOptions);
-
+export const signRefreshToken = (payload: RefreshTokenPayload): string =>
+    signJwtToken(payload, refreshTokenOptions);
 
 /**
  * @description Verify a JWT token
@@ -76,12 +76,9 @@ export const verifyJwtToken = <T extends object>(
     token: string,
     options?: VerifyOptions & {
         secret?: string;
-    }
+    },
 ): T => {
-    const {
-        secret = config.jwt.secret,
-        ...verifyOptions
-    } = options ?? {};
+    const { secret = config.jwt.secret, ...verifyOptions } = options ?? {};
 
     const verifyOpts: VerifyOptions = {
         ...defaults,

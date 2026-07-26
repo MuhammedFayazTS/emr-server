@@ -1,6 +1,6 @@
-import z from "zod";
-import { createReceptionistSchema, updateReceptionistSchema } from "./receptionist.validator";
-import { UserResponseDto } from "@modules/user/user.types";
+import type { createReceptionistSchema, updateReceptionistSchema } from "./receptionist.validator";
+import type { UserResponseDto } from "@modules/user/user.types";
+import type z from "zod";
 
 export interface IReceptionist {
     assignedDesk?: string;

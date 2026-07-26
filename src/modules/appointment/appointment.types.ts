@@ -1,12 +1,12 @@
-import { Document, Types } from "mongoose";
-import z from "zod";
-import {
+import type {
     createAppointmentSchema,
     updateAppointmentSchema,
     cancelAppointmentSchema,
     rescheduleAppointmentSchema,
     searchAppointmentSchema,
 } from "./appointment.validator";
+import type { Document, Types } from "mongoose";
+import type z from "zod";
 
 export enum AppointmentStatus {
     SCHEDULED = "SCHEDULED",
@@ -24,7 +24,7 @@ export interface IAppointment {
     departmentId: Types.ObjectId;
     date: Date;
     startTime: string; // "HH:mm"
-    endTime: string;   // "HH:mm"
+    endTime: string; // "HH:mm"
     status: AppointmentStatus;
     purpose?: string;
     notes?: string;

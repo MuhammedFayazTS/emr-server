@@ -1,6 +1,11 @@
 import { Types } from "mongoose";
-import z from "zod";
-import { createPatientSchema, updatePatientSchema, searchPatientSchema } from "./patient.validator";
+
+import type {
+    createPatientSchema,
+    updatePatientSchema,
+    searchPatientSchema,
+} from "./patient.validator";
+import type z from "zod";
 
 export enum Gender {
     MALE = "Male",

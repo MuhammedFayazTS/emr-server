@@ -1,9 +1,11 @@
-import { ErrorRequestHandler } from "express";
+import z from "zod";
+
+import { HTTP_STATUS_CODES } from "@/shared/constants/http-status-codes";
 import { AppError } from "@/shared/errors/AppError";
 import ApiResponse from "@/shared/utils/api-response";
-import z from "zod";
 import { formatZodError } from "@/shared/utils/zod";
-import { HTTP_STATUS_CODES } from "@/shared/constants/http-status-codes";
+
+import type { ErrorRequestHandler } from "express";
 
 interface MongoServerError extends Error {
     code: number;
@@ -19,16 +21,11 @@ const isMongoDuplicateKeyError = (error: unknown): error is MongoServerError => 
     );
 };
 
-export const errorHandler: ErrorRequestHandler = (
-    error,
-    req,
-    res,
-    next
-): any => {
+export const errorHandler: ErrorRequestHandler = (error, req, res, next): any => {
     console.error(`Error occurred on PATH ${req.path}`, error);
 
     if (error instanceof SyntaxError) {
-        return ApiResponse.badRequest(res, "Invalid JSON format, please check your request body")
+        return ApiResponse.badRequest(res, "Invalid JSON format, please check your request body");
     }
 
     if (error instanceof z.ZodError) {
@@ -41,7 +38,7 @@ export const errorHandler: ErrorRequestHandler = (
         return ApiResponse.error(
             res,
             HTTP_STATUS_CODES.CONFLICT,
-            `${field} '${value}' already exists`
+            `${field} '${value}' already exists`,
         );
     }
 
@@ -52,6 +49,6 @@ export const errorHandler: ErrorRequestHandler = (
     return ApiResponse.internalServerError(
         res,
         "Internal Server Error",
-        error?.message || "Unknown error occurred"
+        error?.message || "Unknown error occurred",
     );
 };

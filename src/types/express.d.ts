@@ -1,4 +1,4 @@
-import { UserDocument } from "@/modules/user";
+import type { UserDocument } from "@/modules/user";
 
 declare global {
     namespace Express {
@@ -8,4 +8,4 @@ declare global {
     }
 }
 
-export { };
+export {};

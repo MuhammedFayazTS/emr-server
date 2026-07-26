@@ -1,11 +1,10 @@
 import z from "zod";
+
 import { objectIdSchema, phoneSchema } from "@/shared/validators/common-validators";
 
 export const genderEnum = z.enum(["Male", "Female", "Other"]);
 
-export const bloodGroupEnum = z.enum([
-    "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-",
-]);
+export const bloodGroupEnum = z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]);
 
 const addressSchema = z.object({
     line1: z.string().min(1, "Address line 1 is required"),

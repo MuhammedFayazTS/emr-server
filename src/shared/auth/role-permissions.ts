@@ -1,5 +1,7 @@
 import { UserRole } from "@/modules/user/user.types";
-import { PERMISSIONS, Permission } from "@constants/permissions";
+import { PERMISSIONS } from "@constants/permissions";
+
+import type { Permission } from "@constants/permissions";
 
 export const ROLE_PERMISSIONS: Record<UserRole, readonly Permission[]> = {
     [UserRole.SUPER_ADMIN]: [

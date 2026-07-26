@@ -1,5 +1,8 @@
 import mongoose, { Schema } from "mongoose";
-import { Gender, IPatient } from "./patient.types";
+
+import { Gender } from "./patient.types";
+
+import type { IPatient } from "./patient.types";
 
 const addressSchema = new Schema(
     {
@@ -10,7 +13,7 @@ const addressSchema = new Schema(
         country: { type: String, default: "India", trim: true },
         pincode: { type: String, required: true, trim: true },
     },
-    { _id: false }
+    { _id: false },
 );
 
 const emergencyContactSchema = new Schema(
@@ -19,7 +22,7 @@ const emergencyContactSchema = new Schema(
         relationship: { type: String, required: true, trim: true },
         phone: { type: String, required: true, trim: true },
     },
-    { _id: false }
+    { _id: false },
 );
 
 const patientSchema = new Schema<IPatient>(
@@ -73,7 +76,7 @@ const patientSchema = new Schema<IPatient>(
             default: true,
         },
     },
-    { timestamps: true }
+    { timestamps: true },
 );
 
 // ---- Indexes ----

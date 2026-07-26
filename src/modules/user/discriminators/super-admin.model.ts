@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 import { User } from "@modules/user/user.model";
 import { UserRole } from "@modules/user/user.types";
 

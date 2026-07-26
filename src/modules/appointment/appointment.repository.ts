@@ -1,6 +1,9 @@
-import { Appointment } from "./appointment.model";
-import { AppointmentStatus, IAppointment, SearchAppointmentQuery } from "./appointment.types";
 import { Types } from "mongoose";
+
+import { Appointment } from "./appointment.model";
+import { AppointmentStatus } from "./appointment.types";
+
+import type { IAppointment, SearchAppointmentQuery } from "./appointment.types";
 
 class AppointmentRepository {
     async create(data: Partial<IAppointment>) {
@@ -46,7 +49,7 @@ class AppointmentRepository {
                 cancelledBy: new Types.ObjectId(cancelledBy),
                 cancelReason,
             },
-            { new: true }
+            { new: true },
         )
             .populate("patientId", "firstName lastName email phone")
             .populate("doctorId", "name email")
@@ -58,7 +61,7 @@ class AppointmentRepository {
         return await Appointment.findByIdAndUpdate(
             id,
             { status: AppointmentStatus.ARRIVED },
-            { new: true }
+            { new: true },
         );
     }
 
@@ -66,7 +69,7 @@ class AppointmentRepository {
         return await Appointment.findByIdAndUpdate(
             id,
             { status: AppointmentStatus.IN_PROGRESS },
-            { new: true }
+            { new: true },
         );
     }
 
@@ -74,7 +77,7 @@ class AppointmentRepository {
         return await Appointment.findByIdAndUpdate(
             id,
             { status: AppointmentStatus.COMPLETED },
-            { new: true }
+            { new: true },
         );
     }
 
@@ -145,10 +148,7 @@ class AppointmentRepository {
         });
     }
 
-    async findBookedSlotsByDoctorAndDate(
-        doctorId: string,
-        date: Date
-    ) {
+    async findBookedSlotsByDoctorAndDate(doctorId: string, date: Date) {
         return await Appointment.find(
             {
                 doctorId,
@@ -159,7 +159,7 @@ class AppointmentRepository {
             },
             {
                 startTime: 1,
-            }
+            },
         ).lean();
     }
 }

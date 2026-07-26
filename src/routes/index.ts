@@ -1,7 +1,6 @@
 import { Router } from "express";
 
 import { authenticate } from "@/middleware/authenticate";
-
 import authRoutes from "@/modules/auth/auth.routes";
 import departmentRoutes from "@/modules/department/department.routes";
 import doctorRoutes from "@/modules/doctor/doctor.routes";

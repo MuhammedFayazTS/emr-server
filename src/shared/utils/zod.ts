@@ -1,6 +1,7 @@
-import { ZodError } from "zod";
 import ApiResponse from "./api-response";
-import { Response } from "express";
+
+import type { Response } from "express";
+import type { ZodError } from "zod";
 
 export const formatZodError = (res: Response, error: ZodError) => {
     const errors = error?.issues?.map((err) => ({

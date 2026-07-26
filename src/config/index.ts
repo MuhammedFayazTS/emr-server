@@ -1,15 +1,15 @@
-import { config as dotEnvConfig } from "dotenv"
+import { config as dotEnvConfig } from "dotenv";
 
-dotEnvConfig()
+dotEnvConfig();
 
-import { getEnv } from "@/shared/utils/get-env"
+import { getEnv } from "@/shared/utils/get-env";
 
 const config = {
     port: getEnv("PORT", "5000"),
 
     cors: {
         origin: getEnv("CORS_ORIGIN", "*"),
-        credentials: true
+        credentials: true,
     },
 
     mongodb: {
@@ -33,6 +33,6 @@ const config = {
         authWindowMs: Number(getEnv("RATE_LIMIT_AUTH_WINDOW_MS", String(15 * 60 * 1000))),
         authMax: Number(getEnv("RATE_LIMIT_AUTH_MAX", "10")),
     },
-}
+};
 
-export default config
+export default config;

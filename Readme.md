@@ -68,9 +68,9 @@ The codebase follows a modular structure to enforce separation of concerns and m
 - **`src/modules/`**: Contains self-contained feature modules (e.g. `auth/`). Each module contains its routes, controller, service, and repository.
 - **`src/routes/`**: Registers all module-specific routes to form the core API routing.
 - **`src/shared/`**: Contains shared components used across modules including:
-  - `constants/`: Status codes and other global constant values.
-  - `errors/`: Custom application error models (e.g. `AppError`).
-  - `utils/`: Common utilities (e.g. the standard `ApiResponse` wrapper).
+    - `constants/`: Status codes and other global constant values.
+    - `errors/`: Custom application error models (e.g. `AppError`).
+    - `utils/`: Common utilities (e.g. the standard `ApiResponse` wrapper).
 
 For a detailed breakdown of the file structure, path aliases, and design choices, please refer to the [Folder Structure Documentation](file:///c:/WORK/machine%20tasks/emr/server/docs/FolderStructure.md).
 

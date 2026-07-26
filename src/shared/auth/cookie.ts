@@ -1,6 +1,8 @@
-import { CookieOptions, Response } from "express";
 import config from "@/config/index";
+
 import { calculateExpirationDate, ONE_DAY_IN_MS } from "../utils/date";
+
+import type { CookieOptions, Response } from "express";
 
 type CookiePayloadType = {
     res: Response;
@@ -46,24 +48,14 @@ export const getSessionCookieOptions = (): CookieOptions => {
 export const setAuthenticationCookies = (
     res: Response,
     accessToken: string,
-    refreshToken: string
+    refreshToken: string,
 ): void => {
-    res.cookie(
-        "accessToken",
-        accessToken,
-        getAccessTokenCookieOptions()
-    );
+    res.cookie("accessToken", accessToken, getAccessTokenCookieOptions());
 
-    res.cookie(
-        "refreshToken",
-        refreshToken,
-        getRefreshTokenCookieOptions()
-    );
+    res.cookie("refreshToken", refreshToken, getRefreshTokenCookieOptions());
 };
 
-export const clearAuthenticationCookies = (
-    res: Response
-): void => {
+export const clearAuthenticationCookies = (res: Response): void => {
     res.clearCookie("accessToken");
 
     res.clearCookie("refreshToken", {

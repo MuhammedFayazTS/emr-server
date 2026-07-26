@@ -1,4 +1,4 @@
-import { DoctorScheduleResponseDto } from "./doctor-schedule.types";
+import type { DoctorScheduleResponseDto } from "./doctor-schedule.types";
 
 export interface PaginatedDoctorScheduleResponse {
     data: DoctorScheduleResponseDto[];
@@ -21,13 +21,16 @@ export function toDoctorScheduleResponseDto(schedule: any): DoctorScheduleRespon
     };
 }
 
-export function toPaginatedDoctorScheduleResponse(data: any[], pagination: any): PaginatedDoctorScheduleResponse {
+export function toPaginatedDoctorScheduleResponse(
+    data: any[],
+    pagination: any,
+): PaginatedDoctorScheduleResponse {
     return {
         data: data.map(toDoctorScheduleResponseDto),
         pagination: {
             nextCursor: pagination.nextCursor ?? null,
             hasNextPage: pagination.hasNextPage ?? false,
             limit: pagination.limit ?? 10,
-        }
+        },
     };
 }

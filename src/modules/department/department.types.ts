@@ -1,5 +1,7 @@
-import { Document, Model, Types } from "mongoose";
-import { SoftDeleteDocument, SoftDeleteModel } from "mongoose-delete";
+import { Model } from "mongoose";
+
+import type { Document, Types } from "mongoose";
+import type { SoftDeleteDocument, SoftDeleteModel } from "mongoose-delete";
 export interface IDepartment {
     _id: Types.ObjectId;
     name: string;

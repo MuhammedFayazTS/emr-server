@@ -1,6 +1,8 @@
-import { Patient } from "./patient.model";
-import { IPatient, SearchPatientQuery } from "./patient.types";
 import { Types } from "mongoose";
+
+import { Patient } from "./patient.model";
+
+import type { IPatient, SearchPatientQuery } from "./patient.types";
 
 class PatientRepository {
     async create(data: Partial<IPatient>) {
@@ -83,10 +85,7 @@ class PatientRepository {
     }
 
     async getNextSequence(): Promise<number> {
-        const result = await Patient.findOne()
-            .sort({ patientId: -1 })
-            .select("patientId")
-            .lean();
+        const result = await Patient.findOne().sort({ patientId: -1 }).select("patientId").lean();
 
         if (!result || !result.patientId) return 1;
 

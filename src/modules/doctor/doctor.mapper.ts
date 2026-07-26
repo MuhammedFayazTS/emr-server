@@ -1,5 +1,6 @@
 import { toUserResponseDto } from "@modules/user/user.mapper";
-import { DoctorResponseDto } from "./doctor.types";
+
+import type { DoctorResponseDto } from "./doctor.types";
 
 export interface PaginatedDoctorResponse {
     data: DoctorResponseDto[];
@@ -27,6 +28,6 @@ export function toPaginatedDoctorResponse(data: any[], pagination: any): Paginat
             nextCursor: pagination.nextCursor ?? null,
             hasNextPage: pagination.hasNextPage ?? false,
             limit: pagination.limit ?? 10,
-        }
+        },
     };
 }

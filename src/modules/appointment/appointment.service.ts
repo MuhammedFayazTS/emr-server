@@ -1,26 +1,29 @@
+import { Types } from "mongoose";
+
+import { BadRequestError, ConflictError, NotFoundError } from "@/shared/errors/CommonExceptions";
+
 import { toAppointmentResponseDto } from "./appointment.mapper";
-import {
+import { AppointmentStatus } from "./appointment.types";
+
+import type {
     AppointmentResponseDto,
-    AppointmentStatus,
     CancelAppointmentDto,
     CreateAppointmentDto,
     RescheduleAppointmentDto,
     SearchAppointmentQuery,
     UpdateAppointmentDto,
 } from "./appointment.types";
-import { Types } from "mongoose";
-import { BadRequestError, ConflictError, NotFoundError } from "@/shared/errors/CommonExceptions";
-import SlotService from "@modules/slot/slot.service";
-import { PatientService } from "../patient";
-import { DoctorService } from "../doctor";
-import AppointmentRepository from "./appointment.repository";
-import DepartmentService from "../department/department.service";
+import type { DoctorService } from "../doctor";
+import type { PatientService } from "../patient";
+import type AppointmentRepository from "./appointment.repository";
+import type DepartmentService from "../department/department.service";
+import type SlotService from "@modules/slot/slot.service";
 
 class AppointmentService {
     private appoinmentRepository: AppointmentRepository;
     private doctorService: DoctorService;
     private departmentService: DepartmentService;
-    private patientService: PatientService
+    private patientService: PatientService;
     private slotService: SlotService;
 
     constructor(
@@ -64,7 +67,7 @@ class AppointmentService {
         const sessionSlots = await this.slotService.generateSlots(data.doctorId, appointmentDate);
         const allSlots = Object.values(sessionSlots).flat();
         const slotExists = allSlots.some(
-            (slot) => slot.startTime === data.startTime && slot.endTime === data.endTime
+            (slot) => slot.startTime === data.startTime && slot.endTime === data.endTime,
         );
         if (!slotExists) {
             throw new BadRequestError("Selected time slot does not exist in the doctor's schedule");
@@ -74,7 +77,7 @@ class AppointmentService {
         const isBooked = await this.appoinmentRepository.existsByDoctorAndSlot(
             data.doctorId,
             appointmentDate,
-            data.startTime
+            data.startTime,
         );
         if (isBooked) {
             throw new ConflictError("This time slot is already booked");
@@ -101,7 +104,10 @@ class AppointmentService {
     }
 
     // ---- Update (notes, purpose only) ----
-    async updateAppointment(id: string, data: UpdateAppointmentDto): Promise<AppointmentResponseDto> {
+    async updateAppointment(
+        id: string,
+        data: UpdateAppointmentDto,
+    ): Promise<AppointmentResponseDto> {
         const existing = await this.appoinmentRepository.findById(id);
         if (!existing) throw new NotFoundError("Appointment not found");
 
@@ -118,7 +124,11 @@ class AppointmentService {
         return toAppointmentResponseDto(appointment);
     }
 
-    async cancelAppointment(id: string, cancelledBy: string, data: CancelAppointmentDto): Promise<AppointmentResponseDto> {
+    async cancelAppointment(
+        id: string,
+        cancelledBy: string,
+        data: CancelAppointmentDto,
+    ): Promise<AppointmentResponseDto> {
         const existing = await this.appoinmentRepository.findById(id);
         if (!existing) throw new NotFoundError("Appointment not found");
 
@@ -130,7 +140,11 @@ class AppointmentService {
             throw new BadRequestError("Cannot cancel a completed appointment");
         }
 
-        const appointment = await this.appoinmentRepository.cancel(id, cancelledBy, data.cancelReason);
+        const appointment = await this.appoinmentRepository.cancel(
+            id,
+            cancelledBy,
+            data.cancelReason,
+        );
         if (!appointment) throw new NotFoundError("Appointment not found");
 
         // TODO: AuditService.log("appointment:cancel", { appointmentId: id, cancelledBy, reason: data.cancelReason })
@@ -158,7 +172,9 @@ class AppointmentService {
         if (!existing) throw new NotFoundError("Appointment not found");
 
         if (existing.status !== AppointmentStatus.ARRIVED) {
-            throw new BadRequestError(`Cannot start appointment. Current status: ${existing.status}`);
+            throw new BadRequestError(
+                `Cannot start appointment. Current status: ${existing.status}`,
+            );
         }
 
         const appointment = await this.appoinmentRepository.markInProgress(id);
@@ -171,8 +187,13 @@ class AppointmentService {
         const existing = await this.appoinmentRepository.findById(id);
         if (!existing) throw new NotFoundError("Appointment not found");
 
-        if (existing.status !== AppointmentStatus.ARRIVED && existing.status !== AppointmentStatus.IN_PROGRESS) {
-            throw new BadRequestError(`Cannot complete appointment. Current status: ${existing.status}`);
+        if (
+            existing.status !== AppointmentStatus.ARRIVED &&
+            existing.status !== AppointmentStatus.IN_PROGRESS
+        ) {
+            throw new BadRequestError(
+                `Cannot complete appointment. Current status: ${existing.status}`,
+            );
         }
 
         const appointment = await this.appoinmentRepository.markCompleted(id);
@@ -181,7 +202,10 @@ class AppointmentService {
     }
 
     // ---- Reschedule ----
-    async rescheduleAppointment(id: string, data: RescheduleAppointmentDto): Promise<AppointmentResponseDto> {
+    async rescheduleAppointment(
+        id: string,
+        data: RescheduleAppointmentDto,
+    ): Promise<AppointmentResponseDto> {
         const existing = await this.appoinmentRepository.findById(id);
         if (!existing) throw new NotFoundError("Appointment not found");
 
@@ -202,10 +226,13 @@ class AppointmentService {
         }
 
         // Verify new slot exists
-        const sessionSlots = await this.slotService.generateSlots(existing.doctorId.toString(), newDate);
+        const sessionSlots = await this.slotService.generateSlots(
+            existing.doctorId.toString(),
+            newDate,
+        );
         const allSlots = Object.values(sessionSlots).flat();
         const slotExists = allSlots.some(
-            (slot) => slot.startTime === data.startTime && slot.endTime === data.endTime
+            (slot) => slot.startTime === data.startTime && slot.endTime === data.endTime,
         );
         if (!slotExists) {
             throw new BadRequestError("Selected time slot does not exist in the doctor's schedule");

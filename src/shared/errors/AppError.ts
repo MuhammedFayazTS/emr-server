@@ -1,4 +1,5 @@
-import { HTTP_STATUS_CODES, HttpStatusCode } from "@/shared/constants/http-status-codes";
+import type { HttpStatusCode } from "@/shared/constants/http-status-codes";
+import { HTTP_STATUS_CODES } from "@/shared/constants/http-status-codes";
 
 export class AppError extends Error {
     public statusCode: HttpStatusCode;

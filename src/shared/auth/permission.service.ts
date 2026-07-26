@@ -1,6 +1,8 @@
-import { UserRole } from "@/modules/user/user.types";
-import { Permission } from "@constants/permissions";
+import type { UserRole } from "@/modules/user/user.types";
+
 import { ROLE_PERMISSIONS } from "./role-permissions";
+
+import type { Permission } from "@constants/permissions";
 
 class PermissionService {
     getPermissions(role: UserRole): readonly Permission[] {
@@ -11,26 +13,16 @@ class PermissionService {
         return this.getPermissions(role).includes(permission);
     }
 
-    hasAnyPermission(
-        role: UserRole,
-        permissions: readonly Permission[]
-    ): boolean {
+    hasAnyPermission(role: UserRole, permissions: readonly Permission[]): boolean {
         const rolePermissions = this.getPermissions(role);
 
-        return permissions.some(permission =>
-            rolePermissions.includes(permission)
-        );
+        return permissions.some((permission) => rolePermissions.includes(permission));
     }
 
-    hasAllPermissions(
-        role: UserRole,
-        permissions: readonly Permission[]
-    ): boolean {
+    hasAllPermissions(role: UserRole, permissions: readonly Permission[]): boolean {
         const rolePermissions = this.getPermissions(role);
 
-        return permissions.every(permission =>
-            rolePermissions.includes(permission)
-        );
+        return permissions.every((permission) => rolePermissions.includes(permission));
     }
 }
 

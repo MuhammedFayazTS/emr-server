@@ -1,8 +1,14 @@
-import { toReceptionistResponseDto } from "./receptionist.mapper";
-import ReceptionistRepository from "./receptionist.repository";
-import { CreateReceptionistDto, ReceptionistResponseDto, UpdateReceptionistDto } from "./receptionist.types";
-import { UserRole } from "@modules/user/user.types";
 import { NotFoundError } from "@/shared/errors/CommonExceptions";
+import { UserRole } from "@modules/user/user.types";
+
+import { toReceptionistResponseDto } from "./receptionist.mapper";
+
+import type ReceptionistRepository from "./receptionist.repository";
+import type {
+    CreateReceptionistDto,
+    ReceptionistResponseDto,
+    UpdateReceptionistDto,
+} from "./receptionist.types";
 
 class ReceptionistService {
     private repository: ReceptionistRepository;
@@ -19,7 +25,10 @@ class ReceptionistService {
         return toReceptionistResponseDto(receptionist);
     }
 
-    async updateReceptionist(id: string, data: UpdateReceptionistDto): Promise<ReceptionistResponseDto> {
+    async updateReceptionist(
+        id: string,
+        data: UpdateReceptionistDto,
+    ): Promise<ReceptionistResponseDto> {
         const receptionist = await this.repository.updateReceptionist(id, data);
         if (!receptionist) throw new NotFoundError("Receptionist not found");
         return toReceptionistResponseDto(receptionist);

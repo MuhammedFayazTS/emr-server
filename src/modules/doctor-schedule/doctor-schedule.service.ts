@@ -1,9 +1,16 @@
-import { toDoctorScheduleResponseDto } from "./doctor-schedule.mapper";
-import DoctorScheduleRepository from "./doctor-schedule.repository";
-import { CreateDoctorScheduleDto, DoctorScheduleResponseDto, UpdateDoctorScheduleDto } from "./doctor-schedule.types";
 import { Types } from "mongoose";
+
 import { NotFoundError } from "@/shared/errors/CommonExceptions";
 import { ConflictError } from "@/shared/errors/CommonExceptions";
+
+import { toDoctorScheduleResponseDto } from "./doctor-schedule.mapper";
+
+import type DoctorScheduleRepository from "./doctor-schedule.repository";
+import type {
+    CreateDoctorScheduleDto,
+    DoctorScheduleResponseDto,
+    UpdateDoctorScheduleDto,
+} from "./doctor-schedule.types";
 
 class DoctorScheduleService {
     private repository: DoctorScheduleRepository;
@@ -24,17 +31,16 @@ class DoctorScheduleService {
         return toDoctorScheduleResponseDto(schedule);
     }
 
-    async updateSchedule(id: string, data: UpdateDoctorScheduleDto): Promise<DoctorScheduleResponseDto> {
+    async updateSchedule(
+        id: string,
+        data: UpdateDoctorScheduleDto,
+    ): Promise<DoctorScheduleResponseDto> {
         const schedule = await this.repository.update(id, data);
         if (!schedule) throw new NotFoundError("Doctor schedule not found");
         return toDoctorScheduleResponseDto(schedule);
     }
 
-    async getAllSchedules(query: {
-        limit?: number;
-        cursor?: string;
-        isActive?: boolean;
-    }) {
+    async getAllSchedules(query: { limit?: number; cursor?: string; isActive?: boolean }) {
         const result = await this.repository.findAll(query);
         return {
             data: result.data.map(toDoctorScheduleResponseDto),

@@ -1,4 +1,4 @@
-import { AppointmentResponseDto } from "./appointment.types";
+import type { AppointmentResponseDto } from "./appointment.types";
 
 export interface PaginatedAppointmentResponse {
     data: AppointmentResponseDto[];
@@ -13,9 +13,15 @@ export function toAppointmentResponseDto(appointment: any): AppointmentResponseD
     return {
         id: appointment._id.toString(),
         appointmentNumber: appointment.appointmentNumber,
-        patientId: appointment.patientId?._id ? appointment.patientId : appointment.patientId?.toString?.() ?? appointment.patientId,
-        doctorId: appointment.doctorId?._id ? appointment.doctorId : appointment.doctorId?.toString?.() ?? appointment.doctorId,
-        departmentId: appointment.departmentId?._id ? appointment.departmentId : appointment.departmentId?.toString?.() ?? appointment.departmentId,
+        patientId: appointment.patientId?._id
+            ? appointment.patientId
+            : (appointment.patientId?.toString?.() ?? appointment.patientId),
+        doctorId: appointment.doctorId?._id
+            ? appointment.doctorId
+            : (appointment.doctorId?.toString?.() ?? appointment.doctorId),
+        departmentId: appointment.departmentId?._id
+            ? appointment.departmentId
+            : (appointment.departmentId?.toString?.() ?? appointment.departmentId),
         date: appointment.date,
         startTime: appointment.startTime,
         endTime: appointment.endTime,
@@ -30,13 +36,16 @@ export function toAppointmentResponseDto(appointment: any): AppointmentResponseD
     };
 }
 
-export function toPaginatedAppointmentResponse(data: any[], pagination: any): PaginatedAppointmentResponse {
+export function toPaginatedAppointmentResponse(
+    data: any[],
+    pagination: any,
+): PaginatedAppointmentResponse {
     return {
         data: data.map(toAppointmentResponseDto),
         pagination: {
             nextCursor: pagination.nextCursor ?? null,
             hasNextPage: pagination.hasNextPage ?? false,
             limit: pagination.limit ?? 10,
-        }
+        },
     };
 }

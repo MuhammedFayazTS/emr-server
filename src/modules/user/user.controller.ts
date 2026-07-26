@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
-import UserService from "./user.service";
+
 import { asyncHandler } from "@/middleware/async-handler";
 import ApiResponse from "@/shared/utils/api-response";
+
+import type UserService from "./user.service";
 
 class UserController {
     private userService: UserService;

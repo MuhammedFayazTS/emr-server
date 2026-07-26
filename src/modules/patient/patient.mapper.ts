@@ -1,4 +1,4 @@
-import { PatientResponseDto } from "./patient.types";
+import type { PatientResponseDto } from "./patient.types";
 
 export function toPatientResponseDto(patient: any): PatientResponseDto {
     return {

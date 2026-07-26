@@ -1,8 +1,9 @@
 import { BadRequestError, NotFoundError } from "@/shared/errors/CommonExceptions";
 import { getDayofDate, minutesToTime, timeToMinutes } from "@/shared/utils/date";
-import { DoctorScheduleService } from "@modules/doctor-schedule";
-import AppointmentRepository from "@modules/appointment/appointment.repository";
-import { ISlot } from "./slot.types";
+
+import type { ISlot } from "./slot.types";
+import type AppointmentRepository from "@modules/appointment/appointment.repository";
+import type { DoctorScheduleService } from "@modules/doctor-schedule";
 
 class SlotService {
     private doctorScheduleService: DoctorScheduleService;
@@ -10,25 +11,20 @@ class SlotService {
 
     constructor(
         doctorScheduleService: DoctorScheduleService,
-        appointmentRepository: AppointmentRepository
+        appointmentRepository: AppointmentRepository,
     ) {
         this.doctorScheduleService = doctorScheduleService;
         this.appointmentRepository = appointmentRepository;
     }
 
-    async generateSlots(
-        doctorId: string,
-        date: Date
-    ): Promise<Record<string, ISlot[]>> {
+    async generateSlots(doctorId: string, date: Date): Promise<Record<string, ISlot[]>> {
         const schedule = await this.doctorScheduleService.getScheduleByDoctorId(doctorId);
 
         const { workingDays, slotDuration } = schedule;
 
         const day = getDayofDate(date);
 
-        const targetWorkingDay = workingDays.find(
-            (wd) => wd.dayOfWeek === day
-        );
+        const targetWorkingDay = workingDays.find((wd) => wd.dayOfWeek === day);
 
         if (!targetWorkingDay) {
             throw new NotFoundError("No schedule found for this day");
@@ -39,16 +35,13 @@ class SlotService {
         }
 
         // Load booked appointments
-        const bookedAppointments =
-            await this.appointmentRepository.findBookedSlotsByDoctorAndDate(
-                doctorId,
-                date
-            );
+        const bookedAppointments = await this.appointmentRepository.findBookedSlotsByDoctorAndDate(
+            doctorId,
+            date,
+        );
 
         // Fast lookup by slot start time
-        const bookedSlots = new Set(
-            bookedAppointments.map((appointment) => appointment.startTime)
-        );
+        const bookedSlots = new Set(bookedAppointments.map((appointment) => appointment.startTime));
 
         const sessionSlots: Record<string, ISlot[]> = {};
 
@@ -60,16 +53,14 @@ class SlotService {
 
             if (endMinutes <= startMinutes) {
                 throw new BadRequestError(
-                    `Invalid session: end time (${endTime}) must be after start time (${startTime})`
+                    `Invalid session: end time (${endTime}) must be after start time (${startTime})`,
                 );
             }
 
             const sessionKey = name;
 
             if (sessionSlots[sessionKey]) {
-                throw new BadRequestError(
-                    `Duplicate session name/key found: "${sessionKey}"`
-                );
+                throw new BadRequestError(`Duplicate session name/key found: "${sessionKey}"`);
             }
 
             const sessionLength = endMinutes - startMinutes;

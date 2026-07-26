@@ -1,12 +1,14 @@
 import { NotFoundError } from "@/shared/errors/CommonExceptions";
-import DepartmentRepository from "./department.repository";
-import { IDepartment } from "./department.types";
+
 import { toDepartmentResponseDto, toPaginatedDepartmentResponse } from "./department.mapper";
+
+import type DepartmentRepository from "./department.repository";
+import type { IDepartment } from "./department.types";
 
 class DepartmentService {
     private departmentRepository: DepartmentRepository;
     constructor(departmentRepository: DepartmentRepository) {
-        this.departmentRepository = departmentRepository
+        this.departmentRepository = departmentRepository;
     }
 
     async createDepartment(data: Partial<IDepartment>) {
@@ -26,12 +28,7 @@ class DepartmentService {
         return toDepartmentResponseDto(department);
     }
 
-    async findAll(query: {
-        limit?: number;
-        cursor?: string;
-        search?: string;
-        isActive?: boolean;
-    }) {
+    async findAll(query: { limit?: number; cursor?: string; search?: string; isActive?: boolean }) {
         const result = await this.departmentRepository.findAll(query);
         return toPaginatedDepartmentResponse(result.data, result.pagination);
     }
@@ -48,15 +45,15 @@ class DepartmentService {
 
     async deleteDepartment(id: string) {
         const deleted = await this.departmentRepository.deleteDepartment(id);
-        if(!deleted) throw new NotFoundError("Department not found");
+        if (!deleted) throw new NotFoundError("Department not found");
         return toDepartmentResponseDto(deleted);
     }
 
     async restoreDepartment(id: string) {
         const restored = await this.departmentRepository.restoreDepartment(id);
-        if(!restored) throw new NotFoundError("Department not found");
+        if (!restored) throw new NotFoundError("Department not found");
         return toDepartmentResponseDto(restored);
     }
 }
 
-export default DepartmentService
+export default DepartmentService;

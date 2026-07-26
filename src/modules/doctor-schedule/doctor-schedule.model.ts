@@ -1,6 +1,8 @@
 import mongoose, { Schema } from "mongoose";
-import { IDoctorSchedule } from "./doctor-schedule.types";
+
 import { DayOfWeek } from "@/shared/constants/days";
+
+import type { IDoctorSchedule } from "./doctor-schedule.types";
 
 const sessionSchema = new Schema(
     {
@@ -14,12 +16,12 @@ const sessionSchema = new Schema(
             required: [true, "Session end time is required"],
             match: [/^([01]\d|2[0-3]):[0-5]\d$/, "End time must be in HH:mm format"],
         },
-        name:{
+        name: {
             type: String,
             required: [true, "Session name is required"],
-        }
+        },
     },
-    { _id: false }
+    { _id: false },
 );
 
 const workingDaySchema = new Schema(
@@ -38,7 +40,7 @@ const workingDaySchema = new Schema(
             default: [],
         },
     },
-    { _id: false }
+    { _id: false },
 );
 
 const doctorScheduleSchema = new Schema(
@@ -66,7 +68,10 @@ const doctorScheduleSchema = new Schema(
             default: [],
         },
     },
-    { timestamps: true }
+    { timestamps: true },
 );
 
-export const DoctorSchedule = mongoose.model<IDoctorSchedule>("DoctorSchedule", doctorScheduleSchema);
+export const DoctorSchedule = mongoose.model<IDoctorSchedule>(
+    "DoctorSchedule",
+    doctorScheduleSchema,
+);

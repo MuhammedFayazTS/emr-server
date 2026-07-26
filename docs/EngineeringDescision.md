@@ -37,25 +37,25 @@ I used a **composite unique index** on the appointment collection, combined with
 ```typescript
 // Prevent double booking of active appointments
 appointmentSchema.index(
-  {
-    doctorId: 1,
-    date: 1,
-    startTime: 1,
-    endTime: 1,
-  },
-  {
-    unique: true,
-    partialFilterExpression: {
-      status: {
-        $in: [
-          AppointmentStatus.SCHEDULED,
-          AppointmentStatus.ARRIVED,
-          AppointmentStatus.IN_PROGRESS,
-          AppointmentStatus.COMPLETED,
-        ],
-      },
+    {
+        doctorId: 1,
+        date: 1,
+        startTime: 1,
+        endTime: 1,
     },
-  },
+    {
+        unique: true,
+        partialFilterExpression: {
+            status: {
+                $in: [
+                    AppointmentStatus.SCHEDULED,
+                    AppointmentStatus.ARRIVED,
+                    AppointmentStatus.IN_PROGRESS,
+                    AppointmentStatus.COMPLETED,
+                ],
+            },
+        },
+    },
 );
 ```
 

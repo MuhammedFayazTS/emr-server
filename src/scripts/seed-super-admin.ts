@@ -1,8 +1,9 @@
 import "dotenv/config";
+import mongoose from "mongoose";
+
+import DatabaseConfig from "@/config/db";
 import UserRepository from "@/modules/user/user.repository";
 import UserService from "@/modules/user/user.service";
-import mongoose from "mongoose";
-import DatabaseConfig from "@/config/db";
 
 async function seedSuperAdmin() {
     await DatabaseConfig.connect();

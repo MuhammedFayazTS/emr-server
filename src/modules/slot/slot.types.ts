@@ -1,6 +1,6 @@
 export interface ISlot {
     startTime: string; // "HH:mm"
-    endTime: string;   // "HH:mm"
+    endTime: string; // "HH:mm"
     date: Date;
     doctorId: string;
     isBooked: boolean;

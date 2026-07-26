@@ -1,14 +1,17 @@
+import { Types } from "mongoose";
+
+import { BadRequestError, ConflictError, NotFoundError } from "@/shared/errors/CommonExceptions";
+
 import { toPatientResponseDto } from "./patient.mapper";
-import PatientRepository from "./patient.repository";
-import {
+
+import type PatientRepository from "./patient.repository";
+import type {
     CreatePatientDto,
     Gender,
     PatientResponseDto,
     SearchPatientQuery,
     UpdatePatientDto,
 } from "./patient.types";
-import { BadRequestError, ConflictError, NotFoundError } from "@/shared/errors/CommonExceptions";
-import { Types } from "mongoose";
 
 class PatientService {
     private repository: PatientRepository;
@@ -46,14 +49,19 @@ class PatientService {
         return toPatientResponseDto(patient);
     }
 
-    async updatePatient(id: string, data: UpdatePatientDto, updatedBy?: string): Promise<PatientResponseDto> {
+    async updatePatient(
+        id: string,
+        data: UpdatePatientDto,
+        updatedBy?: string,
+    ): Promise<PatientResponseDto> {
         const existing = await this.repository.findById(id);
         if (!existing) throw new NotFoundError("Patient not found");
 
         // Check phone uniqueness if changing
         if (data.phone && data.phone !== existing.phone) {
             const phoneExists = await this.repository.existsByPhone(data.phone);
-            if (phoneExists) throw new ConflictError("A patient with this phone number already exists");
+            if (phoneExists)
+                throw new ConflictError("A patient with this phone number already exists");
         }
 
         // Check email uniqueness if changing

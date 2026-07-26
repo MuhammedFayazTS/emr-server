@@ -1,8 +1,10 @@
 import rateLimit, { type Options } from "express-rate-limit";
-import type { Request, Response } from "express";
+
 import config from "@/config/index";
-import ApiResponse from "@/shared/utils/api-response";
 import { HTTP_STATUS_CODES } from "@/shared/constants/http-status-codes";
+import ApiResponse from "@/shared/utils/api-response";
+
+import type { Request, Response } from "express";
 
 function createRateLimiter(options: Partial<Options> & { message: string }) {
     const { message, ...rateLimitOptions } = options;

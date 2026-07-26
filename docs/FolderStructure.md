@@ -109,14 +109,18 @@ server/
 ## 💡 Key Architectural Concepts
 
 ### 1. Modular Separation (modules/)
+
 Every module encapsulates its own complete feature set:
-* **Repository**: Communicates directly with the database or data models.
-* **Service**: Executes the core business logic.
-* **Controller**: Interacts with the HTTP layer (Express `Request`/`Response`).
-* **Routes**: Maps HTTP verbs and paths to their controllers.
+
+- **Repository**: Communicates directly with the database or data models.
+- **Service**: Executes the core business logic.
+- **Controller**: Interacts with the HTTP layer (Express `Request`/`Response`).
+- **Routes**: Maps HTTP verbs and paths to their controllers.
 
 ### 2. Dependency Injection (modules/*/index.ts)
+
 To promote testability and clean architecture, classes do not directly instantiate their dependencies. Dependencies are injected through constructors and initialized in the module's `index.ts`:
+
 ```typescript
 // Example from src/modules/auth/index.ts
 const authRepository = new AuthRepository();
@@ -127,11 +131,12 @@ export { authController };
 ```
 
 ### 3. Path Aliases (tsconfig.json)
+
 To avoid messy relative imports (e.g., `../../shared/utils`), path aliases are configured:
+
 - `@/*` -> `/src/*`
 - `@config/*` -> `/src/config/*`
 - `@modules/*` -> `/src/modules/*`
 - `@utils/*` -> `/src/shared/utils/*`
 - `@constants/*` -> `/src/shared/constants/*`
 - `@errors/*` -> `/src/shared/errors/*`
-

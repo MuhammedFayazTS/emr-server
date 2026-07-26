@@ -1,5 +1,11 @@
 import z from "zod";
-import { emailSchema, objectIdSchema, passwordSchema, phoneSchema } from "@/shared/validators/common-validators";
+
+import {
+    emailSchema,
+    objectIdSchema,
+    passwordSchema,
+    phoneSchema,
+} from "@/shared/validators/common-validators";
 
 export const createUserSchema = z.object({
     name: z.string().min(1, "Name is required"),

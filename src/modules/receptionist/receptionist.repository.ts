@@ -1,7 +1,10 @@
+import { Types } from "mongoose";
+
 import { Receptionist } from "./receptionist.model";
-import { IReceptionist } from "./receptionist.types";
-import { IUser } from "@modules/user/user.types";
-import { QueryFilter, Types } from "mongoose";
+
+import type { IReceptionist } from "./receptionist.types";
+import type { IUser } from "@modules/user/user.types";
+import type { QueryFilter } from "mongoose";
 
 class ReceptionistRepository {
     async createReceptionist(data: Partial<IUser> & IReceptionist) {

@@ -1,6 +1,9 @@
-import { QueryFilter, Types } from "mongoose";
+import { Types } from "mongoose";
+
 import { Department } from "./department.model";
-import { IDepartment } from "./department.types";
+
+import type { IDepartment } from "./department.types";
+import type { QueryFilter } from "mongoose";
 
 class DepartmentRepository {
     async createDepartment(data: Partial<IDepartment>) {
@@ -74,4 +77,4 @@ class DepartmentRepository {
     }
 }
 
-export default DepartmentRepository
+export default DepartmentRepository;

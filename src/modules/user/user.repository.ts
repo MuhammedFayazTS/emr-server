@@ -1,7 +1,8 @@
-import { User } from "./user.model";
 import { Receptionist } from "./discriminators/receptionist.model";
 import { SuperAdmin } from "./discriminators/super-admin.model";
-import { IUser, IReceptionist, ISuperAdmin } from "./user.types";
+import { User } from "./user.model";
+
+import type { IUser, IReceptionist, ISuperAdmin } from "./user.types";
 
 class UserRepository {
     async createReceptionist(data: Partial<IUser> & IReceptionist) {
@@ -29,7 +30,7 @@ class UserRepository {
         tokenId: string,
         tokenHash: string,
         expiresAt: Date,
-        userAgent?: string
+        userAgent?: string,
     ) {
         return User.findByIdAndUpdate(
             userId,
@@ -48,14 +49,11 @@ class UserRepository {
             },
             {
                 new: true,
-            }
+            },
         );
     }
 
-    async findUserWithRefreshToken(
-        userId: string,
-        tokenId: string
-    ) {
+    async findUserWithRefreshToken(userId: string, tokenId: string) {
         return User.findOne(
             {
                 _id: userId,
@@ -64,7 +62,7 @@ class UserRepository {
             {
                 role: 1,
                 "refreshTokens.$": 1,
-            }
+            },
         );
     }
 
@@ -76,7 +74,7 @@ class UserRepository {
             tokenHash: string;
             expiresAt: Date;
             userAgent?: string;
-        }
+        },
     ) {
         return User.findOneAndUpdate(
             {
@@ -90,14 +88,11 @@ class UserRepository {
             },
             {
                 new: true,
-            }
+            },
         );
     }
 
-    async removeRefreshToken(
-        userId: string,
-        tokenId: string
-    ) {
+    async removeRefreshToken(userId: string, tokenId: string) {
         return User.findOneAndUpdate(
             {
                 _id: userId,
@@ -112,7 +107,7 @@ class UserRepository {
             },
             {
                 new: true,
-            }
+            },
         );
     }
 }
