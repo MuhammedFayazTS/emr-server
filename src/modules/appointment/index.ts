@@ -1,3 +1,5 @@
+import { auditLogService } from "@/modules/audit-log";
+
 import { departmentService } from "../department";
 import { doctorService } from "../doctor";
 import { doctorScheduleService } from "../doctor-schedule";
@@ -17,7 +19,7 @@ const appointmentService = new AppointmentService(
     patientService,
     slotService,
 );
-const appointmentController = new AppointmentController(appointmentService);
+const appointmentController = new AppointmentController(appointmentService, auditLogService);
 
 export {
     appointmentRepository,

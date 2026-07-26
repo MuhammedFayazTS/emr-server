@@ -1,10 +1,12 @@
+import { auditLogService } from "@/modules/audit-log";
+
 import ReceptionistController from "./receptionist.controller";
 import ReceptionistRepository from "./receptionist.repository";
 import ReceptionistService from "./receptionist.service";
 
 const receptionistRepository = new ReceptionistRepository();
 const receptionistService = new ReceptionistService(receptionistRepository);
-const receptionistController = new ReceptionistController(receptionistService);
+const receptionistController = new ReceptionistController(receptionistService, auditLogService);
 
 export {
     receptionistRepository,
